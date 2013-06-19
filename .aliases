@@ -1,0 +1,14 @@
+alias la='ls -al'
+alias ls='ls -G'
+alias ll='ls -l'
+
+alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
+alias pp='echo $PATH | tr ":" "\n" '
+alias v=mvim
+alias vi=vim
+alias xt='xterm -j -sb -sl 1000 -bg black -fg gray -bd gray &'
+alias sc='pushd .; cd ~; source .zshrc; popd'
+alias xpp='xmlstarlet fo'
+alias st='git sourcetree'
+alias bx='bundle exec'
+alias js='java org.mozilla.javascript.tools.shell.Main'
