@@ -1,6 +1,6 @@
 alias la='ls -al'
 alias ls='ls -G'
-alias ll='ls -l'
+alias ll='ls -lh'
 
 alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
 alias pp='echo $PATH | tr ":" "\n" '
