@@ -157,8 +157,9 @@ done
 
 source ~/.aliases
 
-bindkey -v
-
 # map 'up' and 'down' to autocomplete via history
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
+
+# emacs mode
+bindkey -e
