@@ -12,3 +12,5 @@ alias xpp='xmlstarlet fo'
 alias st='git sourcetree'
 alias bx='bundle exec'
 alias js='java org.mozilla.javascript.tools.shell.Main'
+
+alias liftoff=". ~/.liftoff_profile && cd ~/Development/private/hmp"
