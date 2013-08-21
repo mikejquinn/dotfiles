@@ -11,8 +11,9 @@ setopt prompt_subst
 
 limit coredumpsize unlimited
 
-. ~/bin/z.sh
-#. ~/.liftoff_profile
+if [[ -a ~/bin/z.sh ]]; then
+  . ~/bin/z.sh
+fi
 
 # setup history
 setopt EXTENDED_HISTORY
@@ -32,7 +33,6 @@ EDITOR=/usr/bin/vim
 PAGER=less
 
 JAVA_HOME=$(/usr/libexec/java_home)
-#JAVA_HOME_7=/System/Library/Java/JavaVirtualMachines/1.7.0_10.jdk/Contents/Home
 ANDROID_HOME=/opt/android
 CELLBLOCK_HOME=~/dev/java/cellblock
 ANT_HOME=~/Development/java/cellblock/tools/ant/apache-ant-1.6.5
@@ -90,7 +90,16 @@ cdpath=( $cdpath ${HOME}/Desktop/ )
 
 # typeset -T FPATH fpath # done by default
 # FPATH fpath
-fpath=( $fpath ${SHELLCONFIG}/functions/ )
+if [[ -d $SHELLCONFIG/functions ]]; then
+  fpath=( $fpath ${SHELLCONFIG}/functions/ )
+
+  for function_file ( ` find ${SHELLCONFIG}/functions/ -type f` )
+  do
+    function_name=$( basename $function_file )
+    autoload $function_name
+    #source $function_file
+  done
+fi
 
 #typeset -T MANPATH manpath # done by default
 #manpath=( /usr/local/man )
@@ -106,13 +115,6 @@ fpath=( $fpath ${SHELLCONFIG}/functions/ )
 alias db2='ssh db2'
 alias web4='ssh web4'
 alias web5='ssh web5'
-
-for function_file ( ` find ${SHELLCONFIG}/functions/ -type f` )
-do
-  function_name=$( basename $function_file )
-  autoload $function_name
-  #source $function_file
-done
 
 source ~/.aliases
 
