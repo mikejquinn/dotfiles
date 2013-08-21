@@ -24,37 +24,6 @@ SAVEHIST=10000
 alias history 'history -l ${HISTSIZE}'
 
 
-__CURRENT_GIT_BRANCH=
-
-parse_git_branch() {
-	git branch --no-color 2> /dev/null \
-	| sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) -- /'
-}
-
-#preexec_functions+='zsh_preexec_update_git_vars'
-zsh_preexec_update_git_vars() {
-	case "$(history $HISTCMD)" in
-		*git*)
-		export __CURRENT_GIT_BRANCH="$(parse_git_branch)"
-		;;
-	esac
-}
-
-#chpwd_functions+='zsh_chpwd_update_git_vars'
-zsh_chpwd_update_git_vars() {
-	export __CURRENT_GIT_BRANCH="$(parse_git_branch)"
-}
-
-get_git_prompt_info() {
-	echo $__CURRENT_GIT_BRANCH
-}
-
-zsh_git_prompt_precmd() {
-	export RPROMPT="aa$(get_git_prompt_info)bb"
-}
-#precmd_functions+='zsh_git_prompt_precmd'
-
-
 PROMPT="[%n@%m:%F{blue}%~%f] "
 RPROMPT='[%F{blue}%W %T%f]'
 
@@ -62,23 +31,23 @@ SHELLCONFIG=${HOME}/Development/env/shellconfig/
 EDITOR=/usr/bin/vim
 PAGER=less
 
-JAVA_HOME=/Library/Java/Home
-JAVA_HOME_7=/System/Library/Java/JavaVirtualMachines/1.7.0_10.jdk/Contents/Home
+JAVA_HOME=$(/usr/libexec/java_home)
+#JAVA_HOME_7=/System/Library/Java/JavaVirtualMachines/1.7.0_10.jdk/Contents/Home
 ANDROID_HOME=/opt/android
 CELLBLOCK_HOME=~/dev/java/cellblock
 ANT_HOME=~/Development/java/cellblock/tools/ant/apache-ant-1.6.5
 NODE_PATH=/usr/local/lib/node_modules
 
+# Amazon Web Services paths
 AWS_HOME=~/Development/amazon-aws
 AWS_ELASTICACHE_HOME=${AWS_HOME}/AmazonElastiCacheCli-1.6.001
 EC2_HOME=${AWS_HOME}/ec2-api-tools-1.6.6.4
 AWS_AUTO_SCALING_HOME=${AWS_HOME}/AutoScaling-1.0.61.2
 
+# Postgres
 PGDATA=/usr/local/var/postgres
 
 # Set up my path
-# typeset -T PATH path # done by default
-
 path=( ${HOME}/.rbenv/bin ${path} )
 eval "$(rbenv init -)"
 
@@ -102,18 +71,8 @@ path=( /opt/restdown/bin         ${path} )
 #M2_HOME=${MAVEN2_HOME}
 #M2=${M2_HOME}/bin
 
-
 # Set my environmental variables
 typeset -T LD_LIBRARY_PATH ld_library_path
-
-#ld_library_path=( /lib/ )
-#ld_library_path=( $ld_library_path /usr/local/lib/ )
-
-# not really sure what DYLD_LIBRARY_PATH is for... taken from my old bash profile
-typeset -T DYLD_LIBRARY_PATH dyld_library_path
-
-#dyld_library_path=( /usr/local/mysql/lib/ )
-#dyld_library_path=( $dyld_library_path /usr/local/lib/ )
 
 typeset -T CLASSPATH classpath
 #classpath=()
