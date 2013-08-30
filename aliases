@@ -15,5 +15,6 @@ alias js='java org.mozilla.javascript.tools.shell.Main'
 
 alias liftoff=". ~/.liftoff_profile && cd ~/Development/private/hmp"
 
+alias sshn="ssh -i ~/.ssh/aws-keys/aws-nba-challenge.pem -l ubuntu"
 alias sshg="ssh -i ~/.ssh/aws-keys/aws-gloto.pem -l ubuntu"
 alias scpg="scp -i ~/.ssh/aws-keys/aws-gloto.pem"
