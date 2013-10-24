@@ -141,5 +141,15 @@ source ~/.aliases
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
+# Backward-kill word, but treat directories in a path as separate words.
+# See http://stackoverflow.com/q/444951/46237
+bash-style-backward-kill-word () {
+  local WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+  zle backward-delete-word
+}
+zle -N bash-style-backward-kill-word
+bindkey '^w' bash-style-backward-kill-word
+
 # emacs mode
 bindkey -e
+
