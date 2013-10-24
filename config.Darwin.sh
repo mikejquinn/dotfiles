@@ -26,9 +26,9 @@ ln -s $SCRIPTDIR/aliases .aliases
 ln -s $SCRIPTDIR/zshenv .zshenv
 ln -s $SCRIPTDIR/zshrc .zshrc
 ln -s $SCRIPTDIR/slate .slate
+ln -s $SCRIPTDIR/tigrc .tigrc
 #ln -s $SCRIPTDIR/gitconfig .gitconfig
 #ln -s $SCRIPTDIR/git-global-ignore .git-global-ignore
-#ln -s $SCRIPTDIR/tigrc .tigrc
 #ln -s $SCRIPTDIR/vim-config .vim
 
 ln -s $SCRIPTDIR/KeyRemap4MacBook/private.xml ~/Library/Application\ Support/KeyRemap4MacBook/private.xml
