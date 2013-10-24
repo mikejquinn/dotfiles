@@ -24,9 +24,28 @@ HISTFILE=~/.history
 SAVEHIST=10000
 alias history 'history -l ${HISTSIZE}'
 
+# Adapted from code found at <https://gist.github.com/1712320>.
+
+setopt prompt_subst
+autoload -U colors && colors # Enable colors in prompt
+
+# Show Git branch/tag, or name-rev if on detached head
+parse_git_branch() {
+  (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
+}
+
+# Modify the colors and symbols in these variables as desired.
+GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$reset_color%}"
+GIT_PROMPT_SUFFIX="%{$fg[green]%}]%{$reset_color%}"
+
+# If inside a Git repository, print its branch and state
+git_prompt_string() {
+  local git_where="$(parse_git_branch)"
+  [ -n "$git_where" ] && echo "$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
+}
 
 PROMPT="[%n@%m:%F{blue}%~%f] "
-RPROMPT='[%F{blue}%W %T%f]'
+RPS1='$(git_prompt_string)'
 
 SHELLCONFIG=${HOME}/Development/env/shellconfig/
 EDITOR=/usr/bin/vim
