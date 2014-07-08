@@ -1,6 +1,7 @@
 alias la='ls -al'
 alias ls='ls -G'
 alias ll='ls -lh'
+alias l='ll'
 
 alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
 alias pp='echo $PATH | tr ":" "\n" '
@@ -12,6 +13,10 @@ alias st='git sourcetree'
 alias bx='bundle exec'
 alias js='java org.mozilla.javascript.tools.shell.Main'
 
+alias a='ansible'
+alias ap='ansible-playbook'
 
 alias postgresstart='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias postgresstop='pg_ctl -m fast -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
+
+alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
