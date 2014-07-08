@@ -6,18 +6,12 @@ alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
 alias pp='echo $PATH | tr ":" "\n" '
 alias v=mvim
 alias vi=vim
-alias xt='xterm -j -sb -sl 1000 -bg black -fg gray -bd gray &'
 alias sc='pushd .; cd ~; source .zshrc; popd'
 alias xpp='xmlstarlet fo'
 alias st='git sourcetree'
 alias bx='bundle exec'
 alias js='java org.mozilla.javascript.tools.shell.Main'
 
-alias liftoff=". ~/.liftoff_profile && cd ~/Development/private/hmp"
-
-alias sshn="ssh -i ~/.ssh/aws-keys/aws-nba-challenge.pem -l ubuntu"
-alias sshg="ssh -i ~/.ssh/aws-keys/aws-gloto.pem -l ubuntu"
-alias scpg="scp -i ~/.ssh/aws-keys/aws-gloto.pem"
 
 alias postgresstart='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias postgresstop='pg_ctl -m fast -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
