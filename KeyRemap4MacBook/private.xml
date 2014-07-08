@@ -1,6 +1,49 @@
 <?xml version="1.0"?>
 <root>
   <item>
+    <name>Return to Option_L</name>
+    <appendix>(+ When you type Return only, send Return)</appendix>
+    <identifier>remap.return2optionL_return</identifier>
+    <autogen>__KeyOverlaidModifier__ KeyCode::RETURN, KeyCode::OPTION_L, KeyCode::RETURN</autogen>
+  </item>
+
+  <item>
+    <name>Map Control+, to hyphen</name>
+    <identifier>private.ctrlcomma_hyphen</identifier>
+    <autogen>__KeyToKey__ KeyCode::COMMA, ModifierFlag::CONTROL_L, KeyCode::MINUS</autogen>
+    <autogen>__KeyToKey__ KeyCode::COMMA, ModifierFlag::CONTROL_R, KeyCode::MINUS</autogen>
+  </item>
+
+  <item>
+    <name>Map Control+. to underscore</name>
+    <identifier>private.ctrlperiod_underscore</identifier>
+    <autogen>__KeyToKey__ KeyCode::DOT, ModifierFlag::CONTROL_L, KeyCode::MINUS, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::DOT, ModifierFlag::CONTROL_R, KeyCode::MINUS, ModifierFlag::SHIFT_R</autogen>
+  </item>
+
+  <!-- Disable the delete, hyphen, and underscore keys while I train my fingers to use the shortcuts -->
+  <item>
+    <name>Disable hyphen and underscore</name>
+    <identifier>private.disable_hyphen</identifier>
+    <autogen>__KeyToKey__ KeyCode::MINUS, KeyCode::VK_NONE</autogen>
+  </item>
+
+  <item>
+    <name>Disable delete</name>
+    <identifier>private.disable_delete</identifier>
+    <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::VK_NONE</autogen>
+  </item>
+
+  <item>
+    <name>Disable parens</name>
+    <identifier>private.disable_parens</identifier>
+    <autogen>__KeyToKey__ KeyCode::KEY_9, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>__KeyToKey__ KeyCode::KEY_9, ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>__KeyToKey__ KeyCode::KEY_0, ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>__KeyToKey__ KeyCode::KEY_0, ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+  </item>
+
+  <item>
     <name>Remap Left Control to Hyper</name>
     <appendix>OS X doesn't have a Hyper. This maps Left Control to Control + Shift + Option + Command.</appendix>
 
@@ -14,10 +57,47 @@
         ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
     </autogen>
   </item>
+
+  <!-- Here to train my fingers to use the correct shift keys when capitalizing letters. -->
+  <item>
+    <name>Use the correct shift keys.</name>
+    <identifier>private.correct_shift_keys</identifier>
+
+    <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::W, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::E, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::R, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::T, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::A, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::S, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::Z, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::V, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
+
+    <autogen>--KeyToKey-- KeyCode::Y,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::U,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::I,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::O,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::P,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::H,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::J,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::K,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::L,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::SEMICOLON, ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::N,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::M,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::COMMA,     ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::DOT,       ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+    <autogen>--KeyToKey-- KeyCode::QUOTE,     ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
+  </item>
+
   <item>
     <name>Shifts to Parentheses</name>
     <appendix>Shifts, when pressed alone, type parentheses.  When used with other keys they're normal shifts.</appendix>
-
     <identifier>private.shifts_to_parens</identifier>
 
     <!-- This is the basic mapping. -->
