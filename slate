@@ -52,11 +52,13 @@ bind ;:cmd hint
 
 # Focus an app with a single keystroke.
 bind l:cmd;ctrl focus "Google Chrome"
-bind j:cmd;ctrl focus "MacVim"
+bind j:cmd;ctrl focus "Emacs"
 bind k:cmd;ctrl focus "iTerm"
-bind u:cmd;ctrl focus "Google Chrome Canary"
+bind u:cmd;ctrl focus "GitX"
 bind i:cmd;ctrl focus "Adium"
 bind o:cmd;ctrl focus "Things"
+bind y:cmd;ctrl focus "Emacs"
+bind n:cmd;ctrl focus "MacVim"
 
 #
 # switcher
@@ -65,4 +67,3 @@ bind o:cmd;ctrl focus "Things"
 # config switchIconSize 20
 #config switchIconSize 20
 # config switchBackgroundColor 50;53;58;0.5
-
