@@ -10,12 +10,12 @@ limit coredumpsize unlimited
 
 # setup history
 setopt EXTENDED_HISTORY
-#setopt SHARE_HISTORY
-setopt INC_APPEND_HISTORY
-setopt HIST_SAVE_NO_DUPS
-HISTFILE=~/.history
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
 SAVEHIST=10000
-#alias history 'history -l ${HISTSIZE}'
+alias h='fc -f -l 100'
 
 # Adapted from code found at <https://gist.github.com/1712320>.
 
