@@ -71,15 +71,6 @@ PGDATA=/usr/local/var/postgres
 path=( ${HOME}/.rbenv/bin ${path} )
 eval "$(rbenv init -)"
 
-# Set my environmental variables
-# typeset -T LD_LIBRARY_PATH ld_library_path
-
-# typeset -T CLASSPATH classpath
-#classpath=()
-
-# typeset -T TAGSPATH tagspath , # vim expects TAGSPATH to be comma-separated
-#tagspath=()
-
 manpath=( /usr/local/man )
 manpath=( $manpath /usr/local/share/man )
 manpath=( $manpath /usr/share/man )
