@@ -20,3 +20,5 @@ alias postgresstart='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgre
 alias postgresstop='pg_ctl -m fast -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
 
 alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
+
+alias agc='ag --clojure'
