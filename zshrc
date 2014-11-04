@@ -4,9 +4,7 @@ umask  022
 
 setopt NO_BG_NICE
 setopt COMPLETE_IN_WORD
-setopt NOBGNICE
 setopt GLOB_DOTS
-setopt prompt_subst
 
 limit coredumpsize unlimited
 
