@@ -94,7 +94,10 @@ bindkey -e
 
 # Helper functions for ansible
 function ah {
-  ansible $1 --list-hosts
+  ansible $1 --list-hosts | head -n 1
+}
+function ash {
+  ssh `ah $1`
 }
 
 eval "$(fasd --init auto)"
