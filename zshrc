@@ -102,10 +102,11 @@ bindkey '^w' bash-style-backward-kill-word
 # emacs mode
 bindkey -e
 
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 [[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
 
 # Helper functions for ansible
 function ah {
   ansible $1 --list-hosts
 }
+
+eval "$(fasd --init auto)"
