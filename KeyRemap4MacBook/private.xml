@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <root>
   <item>
-    <name>Return to Option_L</name>
-    <appendix>(+ When you type Return only, send Return)</appendix>
-    <identifier>remap.return2optionL_return</identifier>
-    <autogen>__KeyOverlaidModifier__ KeyCode::RETURN, KeyCode::OPTION_L, KeyCode::RETURN</autogen>
-  </item>
-
-  <item>
     <name>Map Control+, to hyphen</name>
     <identifier>private.ctrlcomma_hyphen</identifier>
     <autogen>__KeyToKey__ KeyCode::COMMA, ModifierFlag::CONTROL_L, KeyCode::MINUS</autogen>

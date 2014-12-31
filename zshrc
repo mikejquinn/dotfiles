@@ -53,7 +53,7 @@ path=( ~/bin                     ${path} )
 JAVA_HOME=$(/usr/libexec/java_home)
 
 # Android Environment
-ANDROID_HOME=$HOME/Development/android-adt/sdk
+export ANDROID_HOME=$HOME/Development/android-adt/sdk
 path=( $ANDROID_HOME/tools           ${path} )
 path=( $ANDROID_HOME/platform-tools  ${path} )
 

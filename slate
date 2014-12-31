@@ -51,14 +51,12 @@ bind 2:ctrl;cmd throw right resize
 bind ;:cmd hint
 
 # Focus an app with a single keystroke.
-bind l:cmd;ctrl focus "Google Chrome"
-bind j:cmd;ctrl focus "Emacs"
+bind j:cmd;ctrl focus "Google Chrome"
+bind l:cmd;ctrl focus "Emacs"
 bind k:cmd;ctrl focus "iTerm"
 bind u:cmd;ctrl focus "GitX"
 bind i:cmd;ctrl focus "Messages"
 bind o:cmd;ctrl focus "Things"
-bind y:cmd;ctrl focus "Emacs"
-bind n:cmd;ctrl focus "MacVim"
 
 #
 # switcher
