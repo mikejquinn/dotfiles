@@ -2,21 +2,61 @@
 
 umask  022
 
-setopt NO_BG_NICE
-setopt COMPLETE_IN_WORD
-setopt GLOB_DOTS
+# emacs mode
+bindkey -e
+
+setopt NO_BG_NICE       # Don't run background jobs at a lower priority
+setopt COMPLETE_IN_WORD # Keep cursor in its place when completion is started
+setopt GLOB_DOTS        # Don't require a leading '.' in a filename to be matched
 
 limit coredumpsize unlimited
 
-# setup history
-setopt EXTENDED_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
+### General configuration -----------------------------------------------------------------------------------
+
+# History settings
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_SPACE
 alias h='fc -f -l 100'
 
+# Filename generation options
+setopt EXTENDED_GLOB # Extended glob patterns
+setopt NO_MATCH      # Raise an error if a filename pattern has no matches
+unsetopt CASE_GLOB   # Make globbing case-insensitive
+
+export CLICOLOR=1    # Show colors in ls output
+
+# Directory switching
+setopt AUTO_PUSHD        # Push each directory onto the stack
+setopt PUSHD_IGNORE_DUPS # Don't push duplicate entries onto the stack
+
+# zmv for easy batch file renaming (http://zshwiki.org/home/builtin/functions/zmv)
+autoload -U zmv
+
+# Misc
+setopt NOTIFY # Immediately report status of background jobs
+unsetopt BEEP # Don't beep on zle errors
+
+REPORTTIME=30 # Report CPU stats on operations taking more than 30 seconds.
+
+# Map 'up' and 'down' to autocomplete via history
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+
+# Backward-kill word, but treat directories in a path as separate words.
+# See http://stackoverflow.com/q/444951/46237
+bash-style-backward-kill-word () {
+  local WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+  zle backward-delete-word
+}
+zle -N bash-style-backward-kill-word
+bindkey '^w' bash-style-backward-kill-word
+
+### Set up my prompt ----------------------------------------------------------------------------------------
 # Adapted from code found at <https://gist.github.com/1712320>.
 
 setopt prompt_subst
@@ -40,7 +80,12 @@ git_prompt_string() {
 PROMPT="[%n@%m:%F{blue}%~%f] "
 RPS1='$(git_prompt_string)'
 
-EDITOR=/usr/local/bin/vim
+### System configuration ------------------------------------------------------------------------------------
+
+export EDITOR=/usr/local/bin/vim
+export VISUAL=/usr/local/bin/vim
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;32'
 PAGER=less
 
 path=( /usr/local/sbin           ${path} )
@@ -50,7 +95,7 @@ path=( /usr/local/vw/bin         ${path} )
 path=( ~/bin                     ${path} )
 
 # Java Environment
-JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home"
 
 # Android Environment
 export ANDROID_HOME=$HOME/Development/android-adt/sdk
@@ -58,15 +103,18 @@ path=( $ANDROID_HOME/tools           ${path} )
 path=( $ANDROID_HOME/platform-tools  ${path} )
 
 # GO Environment
-GOPATH=$HOME/Development/go
+export GOPATH=$HOME/Development/go
 path=( $GOPATH/bin               ${path} )
 
 # Postgres
-PGDATA=/usr/local/var/postgres
+export PGDATA=/usr/local/var/postgres
 
 # Ruby Environment
 path=( ${HOME}/.rbenv/bin ${path} )
 eval "$(rbenv init -)"
+
+# Node Environment
+export NODE_PATH="/usr/local/lib/node_modules"
 
 manpath=( /usr/local/man )
 manpath=( $manpath /usr/local/share/man )
@@ -74,28 +122,15 @@ manpath=( $manpath /usr/share/man )
 
 source ~/.aliases
 
-# map 'up' and 'down' to autocomplete via history
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-
-# Backward-kill word, but treat directories in a path as separate words.
-# See http://stackoverflow.com/q/444951/46237
-bash-style-backward-kill-word () {
-  local WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-  zle backward-delete-word
-}
-zle -N bash-style-backward-kill-word
-bindkey '^w' bash-style-backward-kill-word
-
-# emacs mode
-bindkey -e
-
 [[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
 
 # Helper functions for ansible
+# Return the first host in a hosts group
 function ah {
   ansible $1 --list-hosts | head -n 1
 }
+
+# SSH to the first host listed in a host group
 function ash {
   ssh `ah $1`
 }
