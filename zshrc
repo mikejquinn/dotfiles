@@ -6,7 +6,6 @@ umask  022
 bindkey -e
 
 setopt NO_BG_NICE       # Don't run background jobs at a lower priority
-setopt COMPLETE_IN_WORD # Keep cursor in its place when completion is started
 setopt GLOB_DOTS        # Don't require a leading '.' in a filename to be matched
 
 limit coredumpsize unlimited
@@ -79,6 +78,35 @@ git_prompt_string() {
 
 PROMPT="[%n@%m:%F{blue}%~%f] "
 RPS1='$(git_prompt_string)'
+
+### Autocomplete --------------------------------------------------------------------------------------------
+
+zstyle :compinstall filename '/Users/mikeq/.zshrc'
+autoload -Uz compinit
+compinit -i
+
+unsetopt MENU_COMPLETE
+unsetopt FLOW_CONTROL
+setopt COMPLETE_IN_WORD # Keep cursor in its place when completion is started
+setopt AUTO_MENU
+setopt ALWAYS_TO_END
+
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
+zstyle ':completion:*' max-errors 2 numeric
+zstyle ':completion:*' prompt '%e possible corrections'
+zstyle ':completion:*' verbose true
+# Color for 'kill'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+# Caching for completion
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path ~/.zsh_cache/
+# Ignore completion functions for non-existent commands
+zstyle ':completion:*:functions' ignored-patterns '_*'
+# Prevent cd from selecting the parent directory
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 ### System configuration ------------------------------------------------------------------------------------
 
