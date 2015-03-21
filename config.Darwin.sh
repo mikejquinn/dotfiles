@@ -20,8 +20,6 @@ SCRIPTDIR=$(cd `dirname $0` && pwd)
 
 # Create Links
 cd ~
-ln -s $SCRIPTDIR/bashrc .bashrc
-ln -s $SCRIPTDIR/bash_profile .bash_profile
 ln -s $SCRIPTDIR/aliases .aliases
 ln -s $SCRIPTDIR/zshenv .zshenv
 ln -s $SCRIPTDIR/zshrc .zshrc
