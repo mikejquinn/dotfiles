@@ -131,8 +131,9 @@ path=( $ANDROID_HOME/tools           ${path} )
 path=( $ANDROID_HOME/platform-tools  ${path} )
 
 # GO Environment
-export GOPATH=$HOME/Development/go
-path=( $GOPATH/bin               ${path} )
+export LIFTOFF_GOPATH=$HOME/Development/work
+export GOPATH=$HOME/Development/go:$LIFTOFF_GOPATH
+path=( $HOME/Development/go/bin      ${path} )
 
 # Postgres
 export PGDATA=/usr/local/var/postgres
@@ -164,3 +165,4 @@ function ash {
 }
 
 eval "$(fasd --init auto)"
+
