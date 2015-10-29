@@ -128,14 +128,14 @@ path=( ~/bin                     ${path} )
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home"
 
 # Android Environment
-export ANDROID_HOME=$HOME/Development/android-adt/sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
 path=( $ANDROID_HOME/tools           ${path} )
 path=( $ANDROID_HOME/platform-tools  ${path} )
 
 # GO Environment
-export LIFTOFF_GOPATH=$HOME/Development/work
-export GOPATH=$HOME/Development/go:$LIFTOFF_GOPATH
-path=( $HOME/Development/go/bin      ${path} )
+export LIFTOFF_GOPATH=$HOME/dev/go-liftoff
+export GOPATH=$HOME/dev/go:$LIFTOFF_GOPATH
+path=( $HOME/dev/go/bin      ${path} )
 
 # Postgres
 export PGDATA=/usr/local/var/postgres
@@ -143,6 +143,9 @@ export PGDATA=/usr/local/var/postgres
 # Ruby Environment
 path=( ${HOME}/.rbenv/bin ${path} )
 eval "$(rbenv init -)"
+
+# Kafka Environment
+export KAFKA_DIR=$HOME/dev/work/kafka
 
 # Node Environment
 export NODE_PATH="/usr/local/lib/node_modules"
