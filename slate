@@ -55,7 +55,8 @@ bind j:cmd;ctrl focus "Google Chrome"
 bind l:cmd;ctrl focus "Emacs"
 bind k:cmd;ctrl focus "iTerm"
 bind u:cmd;ctrl focus "GitX"
-bind i:cmd;ctrl focus "Messages"
+bind i:cmd;ctrl focus "Adium"
+bind y:cmd;ctrl focus "Messages"
 bind o:cmd;ctrl focus "Things"
 
 #
