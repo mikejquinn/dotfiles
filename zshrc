@@ -108,6 +108,8 @@ zstyle ':completion:*:functions' ignored-patterns '_*'
 # Prevent cd from selecting the parent directory
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
+fpath=(~/.rbenv/versions/2.0.0-p598/lib/ruby/gems/2.0.0/gems/timetrap-1.8.14/completions/zsh/ $fpath)
+
 ### System configuration ------------------------------------------------------------------------------------
 
 export EDITOR=/usr/local/bin/vim
