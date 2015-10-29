@@ -1,2 +1,9 @@
+
 bind generic + !git commit --amend
+
+bind main H !?git reset --hard %(commit)
+bind main F !?git reset --soft %(commit)
+bind main C !?git checkout %(commit)
+bind main B !git rebase -i %(commit)^
+
 set vertical-split = no
