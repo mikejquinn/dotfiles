@@ -3,6 +3,8 @@ alias ls='ls -G'
 alias ll='ls -lh'
 alias l='ll'
 
+alias g='git'
+
 alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
 alias pp='echo $PATH | tr ":" "\n" '
 alias v=mvim
@@ -23,3 +25,4 @@ alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 alias redisstop='launchctl unload /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 
 alias agc='ag --clojure'
+alias mr='make run'
