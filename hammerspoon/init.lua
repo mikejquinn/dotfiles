@@ -116,7 +116,7 @@ hotkey.bind(mashShift, "P", hs.grid.pushWindowPrevScreen)
 local appShortcuts = {
    j = "Google Chrome",
    l = "Emacs",
-   k = "iTerm",
+   k = "iTerm2",
    u = "GitX",
    i = "Adium",
    y = "Messages",
@@ -135,14 +135,14 @@ end
 function layoutForWork()
   local screens = getSortedScreens()
   local workLayout = {
-    {"Google Chrome", nil, screens[1], {x=0, y=0, w=0.5, h=1}, nil, nil},
-    {"iTerm", nil, screens[1], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"Slack", nil, screens[1], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
+    {"Google Chrome", nil, screens[3], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
+    {"iTerm2", nil, screens[3], {x=0, y=0, w=0.5, h=1}, nil, nil},
+    {"Slack", nil, screens[1], {x=0, y=0, w=0.5, h=1}, nil, nil},
     {"Emacs", nil, screens[2], {x=0, y=0, w=1, h=1}, nil, nil},
-    {"Google Chrome", "Google Hangouts", screens[3], {x=0, y=0, w=0.5, h=1}, nil, nil},
-    {"Messages", nil, screens[3], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"GitX", nil, screens[1], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"Calendar", nil, screens[3], {x=0, y=0, w=1, h=1}, nil, nil}
+    {"Google Chrome", "Google Hangouts", screens[1], {x=0, y=0, w=0.5, h=1}, nil, nil},
+    {"Messages", nil, screens[1], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
+    {"GitX", nil, screens[2], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
+    {"Calendar", nil, screens[1], {x=0, y=0, w=1, h=1}, nil, nil}
   }
 
   hs.layout.apply(workLayout)
