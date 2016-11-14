@@ -21,9 +21,8 @@ local mashAll   = {"ctrl", "cmd", "alt", "shift"}
 
 -- Reload hammerspoon config
 
-hotkey.bind(mashAlt, "R", function()
-  hs.reload()
-end)
+hotkey.bind(mashAlt, "R", function() hs.reload() end)
+hotkey.bind(mashAlt, "C", function() hs.console.clearConsole() end)
 
 -- Load all screens and sort them from left to right
 
