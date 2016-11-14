@@ -8,6 +8,8 @@ local layout = require "hs.layout"
 
 local log = hs.logger.new("init", "debug")
 
+require "keybindings"
+
 -- The window move animations are annoying
 
 window.animationDuration = 0
