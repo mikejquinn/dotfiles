@@ -31,7 +31,6 @@ hotkey.bind({'ctrl'}, '.', keyCode('-', {'shift'}), nil, keyCode('-', {'shift'})
 
 local function emacsModeEnabled()
    local app = application.frontmostApplication():title()
-   log.d(app)
    for i, appName in ipairs(emacsBlacklist) do
       if appName == app then
          return false
