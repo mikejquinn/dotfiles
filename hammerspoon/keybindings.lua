@@ -14,7 +14,11 @@ local emacsBlacklist = {
 }
 
 local emacsBindings = {
-   w = {mods = {'ctrl'}, map = {{'alt'}, 'delete'}}
+   w = {mods = {'ctrl'}, map = {{'alt'}, 'delete'}},
+   a = {mods = {'ctrl'}, map = {{'cmd'}, 'left'}},
+   e = {mods = {'ctrl'}, map = {{'cmd'}, 'right'}},
+   f = {mods = {'alt'}, map = {{'alt'}, 'right'}},
+   b = {mods = {'alt'}, map = {{'alt'}, 'left'}}
 }
 
 local function keyCode(key, modifiers)
