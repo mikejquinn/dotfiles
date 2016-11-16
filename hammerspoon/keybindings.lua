@@ -8,6 +8,22 @@ local keyDown = eventtap.event.types.keyDown
 local keyUp = eventtap.event.types.keyUp
 local flagsChanged = eventtap.event.types.flagsChanged
 
+hyper = hs.hotkey.modal.new({}, "F18")
+
+local function pressedHyper()
+   hyper.triggered = false
+   hyper:enter()
+   log.d("enter hyper mode")
+end
+
+local function releasedHyper()
+   hyper:exit()
+   log.d("leave hyper mode")
+end
+
+-- I have F19 bound to left ctrl key using Karabiner
+hs.hotkey.bind({}, 'F19', pressedHyper, releasedHyper)
+
 local emacsBlacklist = {
    'Emacs',
    'iTerm2'
@@ -117,3 +133,7 @@ end
 oneTapMetaBinding(leftShift, {'shift'}, '9')
 oneTapMetaBinding(rightShift, {'shift'}, '0')
 oneTapMetaBinding(ctrl, {}, 'escape')
+
+return {
+   hyper = hyper
+}

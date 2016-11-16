@@ -8,7 +8,7 @@ local layout = require "hs.layout"
 
 local log = hs.logger.new("init", "debug")
 
-require "keybindings"
+local mykeys = require "keybindings"
 
 -- The window move animations are annoying
 
@@ -86,16 +86,17 @@ local movements = {
    {mod=mashShift, key="K", fn=gridset(gotop)},
    {mod=mashShift, key="J", fn=gridset(gobottom)},
    {mod=mashShift, key="L", fn=gridset(goright)},
-   {mod=mashAll, key="U", fn=gridset(goupleft)},
-   {mod=mashAll, key="I", fn=gridset(goupright)},
-   {mod=mashAll, key="J", fn=gridset(godownleft)},
-   {mod=mashAll, key="K", fn=gridset(godownright)},
    {mod=mashShift, key="M", fn=grid.maximizeWindow}
 }
 
 fnutils.each(movements, function(m)
   hotkey.bind(m.mod, m.key, m.fn)
 end)
+
+mykeys.hyper:bind({}, 'u', gridset(goupleft))
+mykeys.hyper:bind({}, 'i', gridset(goupright))
+mykeys.hyper:bind({}, 'j', gridset(godownleft))
+mykeys.hyper:bind({}, 'k', gridset(godownright))
 
 -- move windows
 hotkey.bind(mashShift, "Left", hs.grid.pushWindowLeft)
@@ -149,6 +150,6 @@ function layoutForWork()
   hs.layout.apply(workLayout)
 end
 
-hotkey.bind(mashAll, "W", layoutForWork)
+mykeys.hyper:bind({}, 'w', layoutForWork)
 
 hs.alert.show("Config loaded")
