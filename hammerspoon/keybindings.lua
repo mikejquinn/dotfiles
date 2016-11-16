@@ -104,15 +104,8 @@ local function oneTapMetaBinding(oldKeyCode, newKeyMod, newKeyCode)
    local pressed = false
    eventtap.new({keyDown, flagsChanged}, function(event)
       local keyCode = event:getKeyCode()
-      local eventType = eventtap.event.types[event:getType()]
-      if keyCode ~= oldKeyCode and pressed then
-         pressed = false
-      end
-      return false
-   end):start()
-   eventtap.new({flagsChanged}, function(event)
-      local keyCode = event:getKeyCode()
       if keyCode ~= oldKeyCode then
+         pressed = false
          return false
       end
       if eventHasMod(event, keyToMod[oldKeyCode]) then
@@ -133,6 +126,47 @@ end
 oneTapMetaBinding(leftShift, {'shift'}, '9')
 oneTapMetaBinding(rightShift, {'shift'}, '0')
 oneTapMetaBinding(ctrl, {}, 'escape')
+
+local function oneTapKeyModifier(oldKeyName, newKeyMod)
+   local oldKeyCode = keycodes.map[oldKeyName]
+   local pressed = false
+   local fired = false
+   eventtap.new({keyDown, keyUp}, function(event)
+      local keyCode = event:getKeyCode()
+      local eventType = eventtap.event.types[event:getType()]
+      if eventType == 'keyUp' then
+         if keyCode ~= oldKeyCode then
+            if pressed then
+               return true, {}
+            end
+            return false
+         end
+         pressed = false
+         if not fired then
+            local down = eventtap.event.newKeyEvent({}, oldKeyName, true)
+            local up = eventtap.event.newKeyEvent({}, oldKeyName, false)
+            return true, {down, up}
+         end
+         return true, {}
+      end
+      if eventType == 'keyDown' then
+         if keyCode == oldKeyCode then
+            pressed = true
+            fired = false
+            return true, {}
+         end
+         if not pressed then
+            return false
+         end
+         fired = true
+         local down = eventtap.event.newKeyEvent(newKeyMod, keycodes.map[keyCode], true)
+         return true, {down}
+      end
+      return false
+   end):start()
+end
+
+oneTapKeyModifier("return", {'alt'})
 
 return {
    hyper = hyper
