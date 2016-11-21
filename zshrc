@@ -161,7 +161,7 @@ source ~/.aliases
 # Helper functions for ansible
 # Return the first host in a hosts group
 function ah {
-  ansible $1 --list-hosts | head -n 1
+  psh -l "=$1" | head -n 1
 }
 
 # SSH to the first host listed in a host group
