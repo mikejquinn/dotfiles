@@ -125,7 +125,7 @@ path=( /usr/local/vw/bin         ${path} )
 path=( ~/bin                     ${path} )
 
 # Java Environment
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home"
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 # Android Environment
 export ANDROID_HOME=$HOME/Library/Android/sdk
