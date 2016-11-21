@@ -111,6 +111,8 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 fpath=(~/.rbenv/versions/2.0.0-p598/lib/ruby/gems/2.0.0/gems/timetrap-1.8.14/completions/zsh/ $fpath)
 
 ### System configuration ------------------------------------------------------------------------------------
+#
+[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
 
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
@@ -155,8 +157,6 @@ manpath=( $manpath /usr/local/share/man )
 manpath=( $manpath /usr/share/man )
 
 source ~/.aliases
-
-[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
 
 # Helper functions for ansible
 # Return the first host in a hosts group
