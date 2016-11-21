@@ -6,4 +6,6 @@ bind main F !?git reset --soft %(commit)
 bind main C !?git checkout %(commit)
 bind main B !git rebase -i %(commit)^
 
+bind stash D !?git stash drop %(stash)
+
 set vertical-split = no
