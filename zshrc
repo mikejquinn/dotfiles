@@ -133,9 +133,9 @@ path=( $ANDROID_HOME/tools           ${path} )
 path=( $ANDROID_HOME/platform-tools  ${path} )
 
 # GO Environment
-export LIFTOFF_GOPATH=$HOME/dev/go-liftoff
 export GOPATH=$HOME/dev/go:$LIFTOFF_GOPATH
-path=( $HOME/dev/go/bin      ${path} )
+path=( $HOME/dev/go/bin     ${path} )
+path=( $LIFTOFF_GOPATH/bin  ${path} )
 
 # Postgres
 export PGDATA=/usr/local/var/postgres
