@@ -10,47 +10,7 @@ Host adcheckup.com *.liftoff.io *.compute-1.amazonaws.com *.compute.amazonaws.co
   PasswordAuthentication no
   ForwardAgent yes
   StrictHostKeyChecking no
-  PasswordAuthentication no
   SendEnv LIFTOFF_USERNAME
-
-Host *-vagrant
-  HostName 127.0.0.1
-  User vagrant
-  StrictHostKeyChecking no
-  PasswordAuthentication no
-  IdentityFile /Users/mikeq/.vagrant.d/insecure_private_key
-  IdentitiesOnly yes
-  ForwardAgent yes
-Host haggler-vagrant
-  Port 2280
-Host dealer-vagrant
-  Port 2281
-Host beancounter-vagrant
-  Port 2282
-Host pinpoint-vagrant
-  Port 2283
-Host skipper-vagrant
-  Port 2285
-Host prospector-vagrant
-  Port 2286
-Host haggler2-vagrant
-  Port 2287
-Host peddler-vagrant
-  Port 2284
-Host gumshoe-vagrant
-  Port 2288
-Host bookie-vagrant
-  Port 2289
-Host graphite-vagrant
-  Port 2290
-Host redis-vagrant
-  Port 2291
-Host watchman-vagrant
-  Port 2210
-Host analytics-db-vagrant
-  Port 2281
-Host postgres-db-vagrant
-  Port 2210
 
 # Github aggressively closes connections
 Host github.com
