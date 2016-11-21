@@ -25,4 +25,5 @@ alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 alias redisstop='launchctl unload /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 
 alias agc='ag --clojure'
+alias agg='ag --go'
 alias mr='make run'
