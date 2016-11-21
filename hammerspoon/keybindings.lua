@@ -29,21 +29,20 @@ local emacsBlacklist = {
    'iTerm2'
 }
 
-local emacsBindings = {
-   w = {mods = {'ctrl'}, map = {{'alt'}, 'delete'}},
-   a = {mods = {'ctrl'}, map = {{'cmd'}, 'left'}},
-   e = {mods = {'ctrl'}, map = {{'cmd'}, 'right'}},
-   f = {mods = {'alt'}, map = {{'alt'}, 'right'}},
-   b = {mods = {'alt'}, map = {{'alt'}, 'left'}}
+local bindings = {
+   w = {mods = {'ctrl'}, map = {{'alt'}, 'delete'}, emacsMode = true},
+   a = {mods = {'ctrl'}, map = {{'cmd'}, 'left'}, emacsMode = true},
+   e = {mods = {'ctrl'}, map = {{'cmd'}, 'right'}, emacsMode = true},
+   f = {mods = {'alt'}, map = {{'alt'}, 'right'}, emacsMode = true},
+   b = {mods = {'alt'}, map = {{'alt'}, 'left'}, emacsMode = true}
 }
+bindings[","] = {mods = {'ctrl'}, map = {{}, "-"}, emacsMode = false}
+bindings["."] = {mods = {'ctrl'}, map = {{"shift"}, "-"}, emacsMode = false}
 
 local function keyCode(key, modifiers)
   modifiers = modifiers or {}
   return function() hs.eventtap.keyStroke(modifiers, key) end
 end
-
-hotkey.bind({'ctrl'}, ',', keyCode('-'), nil, keyCode('-'))
-hotkey.bind({'ctrl'}, '.', keyCode('-', {'shift'}), nil, keyCode('-', {'shift'}))
 
 local function emacsModeEnabled()
    local app = application.frontmostApplication():title()
@@ -72,19 +71,18 @@ end
 eventtap.new({keyDown}, function(event)
   local key = keycodes.map[event:getKeyCode()]
   local flags = event:getFlags()
-  local binding = emacsBindings[key]
+  local binding = bindings[key]
   if binding == nil then
      return false
   end
   if not checkFlagsWithModArray(flags, binding.mods) then
      return false
   end
-  if not emacsModeEnabled() then
+  if binding.emacsMode and not emacsModeEnabled() then
      return false
   end
   local down = eventtap.event.newKeyEvent(binding.map[1], binding.map[2], true)
-  local up = eventtap.event.newKeyEvent(binding.map[1], binding.map[2], false)
-  return true, {down, up}
+  return true, {down}
 end):start()
 
 local leftShift = 56
