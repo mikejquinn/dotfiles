@@ -8,10 +8,27 @@ local layout = require "hs.layout"
 
 local log = hs.logger.new("init", "debug")
 
-local mykeys = require "keybindings"
+keybindings = require "keybindings"
+
+hs.crash.crashLogToNSLog = true
+
+
+keybindings.new("w", {"ctrl"}, "delete", {"alt"}, true)
+keybindings.new("a", {"ctrl"}, "left", {"cmd"}, true)
+keybindings.new("e", {"ctrl"}, "right", {"cmd"}, true)
+keybindings.new("f", {"alt"}, "right", {"alt"}, true)
+keybindings.new("b", {"alt"}, "left", {"alt"}, true)
+keybindings.new(",", {"ctrl"}, "-", {}, false)
+keybindings.new(".", {"ctrl"}, "-", {"shift"}, false)
+
+
+keybindings.newOneTapMetaBinding(keybindings.keys.leftShift, {'shift'}, '9')
+keybindings.newOneTapMetaBinding(keybindings.keys.rightShift, {'shift'}, '0')
+keybindings.newOneTapMetaBinding(keybindings.keys.ctrl, {}, 'escape')
+
+keybindings.newOneTapBinding("return", {"alt"})
 
 -- The window move animations are annoying
-
 window.animationDuration = 0
 
 local mash      = {"ctrl", "cmd"}
@@ -23,6 +40,7 @@ local mashAll   = {"ctrl", "cmd", "alt", "shift"}
 
 hotkey.bind(mashAlt, "R", function() hs.reload() end)
 hotkey.bind(mashAlt, "C", function() hs.console.clearConsole() end)
+
 
 -- Load all screens and sort them from left to right
 
@@ -68,6 +86,7 @@ local goleft = {x=0, y=0, w=gridW/2, h=gridH}
 local goright = {x=gridW/2, y=0, w=gridW/2, h=gridH}
 local gotop = {x=0, y=0, w=gridW, h=gridH/2}
 local gobottom = {x=0, y=gridH/2, w=gridW, h=gridH/2}
+local gocenter = {x=1, y=0, w=4, h=gridH}
 
 local goupleft = {x=0, y=0, w=gridW/2, h=gridH/2}
 local goupright = {x=gridW/2, y=0, w=gridW/2, h=gridH/2}
@@ -86,6 +105,7 @@ local movements = {
    {mod=mashShift, key="K", fn=gridset(gotop)},
    {mod=mashShift, key="J", fn=gridset(gobottom)},
    {mod=mashShift, key="L", fn=gridset(goright)},
+   {mod=mashShift, key=",", fn=gridset(gocenter)},
    {mod=mashShift, key="M", fn=grid.maximizeWindow}
 }
 
@@ -93,10 +113,15 @@ fnutils.each(movements, function(m)
   hotkey.bind(m.mod, m.key, m.fn)
 end)
 
-mykeys.hyper:bind({}, 'u', gridset(goupleft))
-mykeys.hyper:bind({}, 'i', gridset(goupright))
-mykeys.hyper:bind({}, 'j', gridset(godownleft))
-mykeys.hyper:bind({}, 'k', gridset(godownright))
+-- mykeys.hyper:bind({}, 'u', gridset(goupleft))
+-- mykeys.hyper:bind({}, 'i', gridset(goupright))
+-- mykeys.hyper:bind({}, 'j', gridset(godownleft))
+-- mykeys.hyper:bind({}, 'k', gridset(godownright))
+
+hotkey.bind(mashAll, 'u', gridset(goupleft))
+hotkey.bind(mashAll, 'i', gridset(goupright))
+hotkey.bind(mashAll, 'j', gridset(godownleft))
+hotkey.bind(mashAll, 'k', gridset(godownright))
 
 -- move windows
 hotkey.bind(mashShift, "Left", hs.grid.pushWindowLeft)
@@ -111,8 +136,8 @@ hotkey.bind(mashShift, "I", hs.grid.resizeWindowShorter)
 hotkey.bind(mashShift, "O", hs.grid.resizeWindowWider)
 
 -- multi monitor
-hotkey.bind(mashShift, "N", hs.grid.pushWindowNextScreen)
-hotkey.bind(mashShift, "P", hs.grid.pushWindowPrevScreen)
+hotkey.bind(mashShift, "N", hs.grid.pushWindowPrevScreen)
+hotkey.bind(mashShift, "P", hs.grid.pushWindowNextScreen)
 
 -- Application focus hotkeys
 local appShortcuts = {
@@ -150,6 +175,8 @@ function layoutForWork()
   hs.layout.apply(workLayout)
 end
 
-mykeys.hyper:bind({}, 'w', layoutForWork)
+-- mykeys.hyper:bind({}, 'w', layoutForWork)
+
+hotkey.bind(mashAll,"w", layoutForWork)
 
 hs.alert.show("Config loaded")

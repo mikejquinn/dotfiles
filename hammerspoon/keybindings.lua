@@ -8,41 +8,29 @@ local keyDown = eventtap.event.types.keyDown
 local keyUp = eventtap.event.types.keyUp
 local flagsChanged = eventtap.event.types.flagsChanged
 
-hyper = hs.hotkey.modal.new({}, "F18")
+local hyper = hs.hotkey.modal.new({}, "F18")
 
-local function pressedHyper()
-   hyper.triggered = false
-   hyper:enter()
-   log.d("enter hyper mode")
-end
+local module = {}
 
-local function releasedHyper()
-   hyper:exit()
-   log.d("leave hyper mode")
-end
+-- local function pressedHyper()
+--    hyper.triggered = false
+--    hyper:enter()
+-- end
 
--- I have F19 bound to left ctrl key using Karabiner
-hs.hotkey.bind({}, 'F19', pressedHyper, releasedHyper)
+-- local function releasedHyper()
+--    hyper:exit()
+-- end
+
+-- -- I have F19 bound to left ctrl key using Karabiner
+-- hs.hotkey.bind({}, 'F19', pressedHyper, releasedHyper)
+
+local function down(mods, key) return eventtap.event.newKeyEvent(mods, key, true) end
+local function up(mods, key) return eventtap.event.newKeyEvent(mods, key, false) end
 
 local emacsBlacklist = {
    'Emacs',
    'iTerm2'
 }
-
-local bindings = {
-   w = {mods = {'ctrl'}, map = {{'alt'}, 'delete'}, emacsMode = true},
-   a = {mods = {'ctrl'}, map = {{'cmd'}, 'left'}, emacsMode = true},
-   e = {mods = {'ctrl'}, map = {{'cmd'}, 'right'}, emacsMode = true},
-   f = {mods = {'alt'}, map = {{'alt'}, 'right'}, emacsMode = true},
-   b = {mods = {'alt'}, map = {{'alt'}, 'left'}, emacsMode = true}
-}
-bindings[","] = {mods = {'ctrl'}, map = {{}, "-"}, emacsMode = false}
-bindings["."] = {mods = {'ctrl'}, map = {{"shift"}, "-"}, emacsMode = false}
-
-local function keyCode(key, modifiers)
-  modifiers = modifiers or {}
-  return function() hs.eventtap.keyStroke(modifiers, key) end
-end
 
 local function emacsModeEnabled()
    local app = application.frontmostApplication():title()
@@ -68,10 +56,16 @@ local function checkFlagsWithModArray(flags, mods)
    return true
 end
 
-eventtap.new({keyDown}, function(event)
+local bindings = {}
+
+module.__bindingevent = eventtap.new({keyDown, keyUp, flagsChanged}, function(event)
   local key = keycodes.map[event:getKeyCode()]
   local flags = event:getFlags()
   local binding = bindings[key]
+  local eventType = eventtap.event.types[event:getType()]
+  if eventType == "flagsChanged" then
+     return false
+  end
   if binding == nil then
      return false
   end
@@ -81,13 +75,29 @@ eventtap.new({keyDown}, function(event)
   if binding.emacsMode and not emacsModeEnabled() then
      return false
   end
-  local down = eventtap.event.newKeyEvent(binding.map[1], binding.map[2], true)
-  return true, {down}
-end):start()
+  if eventType == "keyDown" then
+     return true, {down(binding.map[1], binding.map[2])}
+  else
+     return true, {up(binding.map[1], binding.map[2])}
+  end
+end)
 
-local leftShift = 56
-local rightShift = 60
-local ctrl = 59
+module.__bindingevent:start()
+
+function module.new(key, mods, mappedKey, mappedMods, emacsMode)
+   bindings[key] = {mods=mods, map={mappedMods, mappedKey}, emacsMode = emacsMode}
+end
+
+local function keyCode(key, modifiers)
+  modifiers = modifiers or {}
+  return function() hs.eventtap.keyStroke(modifiers, key) end
+end
+
+module.keys = {
+  leftShift = 56,
+  rightShift = 60,
+  ctrl = 59
+}
 
 local function eventHasMod(event, mod)
    return (event:getFlags()[mod] == true)
@@ -100,7 +110,12 @@ keyToMod[59] = 'ctrl'
 
 local function oneTapMetaBinding(oldKeyCode, newKeyMod, newKeyCode)
    local pressed = false
-   eventtap.new({keyDown, flagsChanged}, function(event)
+   local tap = eventtap.new({keyDown, keyUp, flagsChanged}, function(event)
+      local eventType = eventtap.event.types[event:getType()]
+      -- I'm not sure why, but we have to listen for the keyUp event and pass it through or hammerspoon gets confused.
+      if eventType == "keyUp" then
+         return false
+      end
       local keyCode = event:getKeyCode()
       if keyCode ~= oldKeyCode then
          pressed = false
@@ -118,54 +133,90 @@ local function oneTapMetaBinding(oldKeyCode, newKeyMod, newKeyCode)
       local down = eventtap.event.newKeyEvent(newKeyMod, newKeyCode, true)
       local up = eventtap.event.newKeyEvent(newKeyMod, newKeyCode, false)
       return true, {down, up}
-   end):start()
+   end)
+   tap:start()
+   return tap
 end
 
-oneTapMetaBinding(leftShift, {'shift'}, '9')
-oneTapMetaBinding(rightShift, {'shift'}, '0')
-oneTapMetaBinding(ctrl, {}, 'escape')
+module.__oneTapMetaBindings = {}
 
-local function oneTapKeyModifier(oldKeyName, newKeyMod)
+-- TODO: combine these two functions
+function module.newOneTapMetaBinding(key, newKeyMod, newKey)
+   local event = oneTapMetaBinding(key, newKeyMod, newKey)
+   module.__oneTapMetaBindings[#module.__oneTapMetaBindings+1] = event
+end
+
+local function oneTapKeyBinding(oldKeyName, newKeyMod)
    local oldKeyCode = keycodes.map[oldKeyName]
    local pressed = false
    local fired = false
-   eventtap.new({keyDown, keyUp}, function(event)
+   local tap = eventtap.new({keyDown, keyUp}, function(event)
       local keyCode = event:getKeyCode()
       local eventType = eventtap.event.types[event:getType()]
+      local flagCount = 0
+      for _ in pairs(event:getFlags()) do flagCount = flagCount + 1 end
+
+      if flagCount ~= 0 and keyCode == oldKeyCode then
+         -- log.d("false - key pressed with modifier")
+         return false
+      end
+
       if eventType == 'keyUp' then
          if keyCode ~= oldKeyCode then
             if pressed then
-               return true, {}
+               -- log.d("up - ret is pressed")
+               return true, {up(newKeyMod, keycodes.map[keyCode])}
             end
+            -- log.d("false - ret is not pressed")
             return false
          end
          pressed = false
          if not fired then
-            local down = eventtap.event.newKeyEvent({}, oldKeyName, true)
-            local up = eventtap.event.newKeyEvent({}, oldKeyName, false)
-            return true, {down, up}
+            -- log.d("down/up - ret key pressed without other keys")
+            return true, {down({}, oldKeyName), up({}, oldKeyName)}
          end
+         -- log.d("nil - suppressing key up")
          return true, {}
       end
+
       if eventType == 'keyDown' then
          if keyCode == oldKeyCode then
             pressed = true
             fired = false
+            -- log.d("nil - suppressing key down")
             return true, {}
          end
          if not pressed then
+            -- log.d("false - ret is not pressed")
             return false
          end
          fired = true
-         local down = eventtap.event.newKeyEvent(newKeyMod, keycodes.map[keyCode], true)
-         return true, {down}
+         -- log.d("down - key pressed while ret is down")
+         return true, {down(newKeyMod, keycodes.map[keyCode])}
       end
+
+      -- log.d("false - fallthrough")
       return false
-   end):start()
+   end)
+   tap:start()
+   return tap
 end
 
-oneTapKeyModifier("return", {'alt'})
+module.__oneTapBindings = {}
 
-return {
-   hyper = hyper
-}
+function module.newOneTapBinding(key, mappedMod)
+   local event = oneTapKeyBinding(key, mappedMod)
+   module.__oneTapBindings[#module.__oneTapBindings+1] = event
+end
+
+-- local oneTapKeys = {
+--    retalt = oneTapKeyModifier("return", {'alt'})
+-- }
+-- keybindings = {
+--    hyper = hyper,
+--    oneTapBindings = oneTapBindings,
+--    oneTapKeys = oneTapKeys,
+--    otherBindings = otherBindings
+-- }
+
+return module
