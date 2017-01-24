@@ -27,6 +27,11 @@ ln -s $SCRIPTDIR/slate .slate
 ln -s $SCRIPTDIR/tigrc .tigrc
 ln -s $SCRIPTDIR/psqlrc .psqlrc
 ln -s $SCRIPTDIR/ssh-config .ssh/config
+
+mkdir ~/.lein
+ln -s $SCRIPTDIR/lein/profiles.clj ~/.lein/profiles.clj
+ln -s $SCRIPTDIR/lein/credentials.clj.gpg ~/.lein/credentials.clj.gpg
+
 #ln -s $SCRIPTDIR/gitconfig .gitconfig
 #ln -s $SCRIPTDIR/git-global-ignore .git-global-ignore
 #ln -s $SCRIPTDIR/vim-config .vim
