@@ -136,8 +136,8 @@ hotkey.bind(mashShift, "I", hs.grid.resizeWindowShorter)
 hotkey.bind(mashShift, "O", hs.grid.resizeWindowWider)
 
 -- multi monitor
-hotkey.bind(mashShift, "N", hs.grid.pushWindowPrevScreen)
-hotkey.bind(mashShift, "P", hs.grid.pushWindowNextScreen)
+hotkey.bind(mashShift, "N", hs.grid.pushWindowNextScreen)
+hotkey.bind(mashShift, "P", hs.grid.pushWindowPrevScreen)
 
 -- Application focus hotkeys
 local appShortcuts = {
