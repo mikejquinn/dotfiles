@@ -1,0 +1,16 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project files
+.projectile
+gumtwo/bin
+
+django_admin/env-1.6.5
+django_admin/env-1.9.7
+python-2.7
