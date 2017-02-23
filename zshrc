@@ -1,122 +1,72 @@
-#!/bin/zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-umask  022
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
 
-# emacs mode
-bindkey -e
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="bira"
 
-setopt NO_BG_NICE       # Don't run background jobs at a lower priority
-setopt GLOB_DOTS        # Don't require a leading '.' in a filename to be matched
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-limit coredumpsize unlimited
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-### General configuration -----------------------------------------------------------------------------------
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-# History settings
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt EXTENDED_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_SPACE
-alias h='fc -f -l 100'
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
 
-# Filename generation options
-setopt EXTENDED_GLOB # Extended glob patterns
-setopt NO_MATCH      # Raise an error if a filename pattern has no matches
-unsetopt CASE_GLOB   # Make globbing case-insensitive
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-export CLICOLOR=1    # Show colors in ls output
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# Directory switching
-setopt AUTO_PUSHD        # Push each directory onto the stack
-setopt PUSHD_IGNORE_DUPS # Don't push duplicate entries onto the stack
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-# zmv for easy batch file renaming (http://zshwiki.org/home/builtin/functions/zmv)
-autoload -U zmv
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
 
-# Misc
-setopt NOTIFY # Immediately report status of background jobs
-unsetopt BEEP # Don't beep on zle errors
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-REPORTTIME=30 # Report CPU stats on operations taking more than 30 seconds.
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
 
-# Map 'up' and 'down' to autocomplete via history
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Backward-kill word, but treat directories in a path as separate words.
-# See http://stackoverflow.com/q/444951/46237
-bash-style-backward-kill-word () {
-  local WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-  zle backward-delete-word
-}
-zle -N bash-style-backward-kill-word
-bindkey '^w' bash-style-backward-kill-word
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
 
-### Set up my prompt ----------------------------------------------------------------------------------------
-# Adapted from code found at <https://gist.github.com/1712320>.
+source $ZSH/oh-my-zsh.sh
 
-setopt prompt_subst
-autoload -U colors && colors # Enable colors in prompt
+# User configuration
 
-# Show Git branch/tag, or name-rev if on detached head
-parse_git_branch() {
-  (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
-}
+# export MANPATH="/usr/local/man:$MANPATH"
 
-# Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$reset_color%}"
-GIT_PROMPT_SUFFIX="%{$fg[green]%}]%{$reset_color%}"
-
-# If inside a Git repository, print its branch and state
-git_prompt_string() {
-  local git_where="$(parse_git_branch)"
-  [ -n "$git_where" ] && echo "$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
-}
-
-PROMPT="[%n@%m:%F{blue}%~%f] "
-RPS1='$(git_prompt_string)'
-
-### Autocomplete --------------------------------------------------------------------------------------------
-
-zstyle :compinstall filename '/Users/mikeq/.zshrc'
-autoload -Uz compinit
-compinit -i
-
-unsetopt MENU_COMPLETE
-unsetopt FLOW_CONTROL
-setopt COMPLETE_IN_WORD # Keep cursor in its place when completion is started
-setopt AUTO_MENU
-setopt ALWAYS_TO_END
-
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _ignored
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
-zstyle ':completion:*' max-errors 2 numeric
-zstyle ':completion:*' prompt '%e possible corrections'
-zstyle ':completion:*' verbose true
-# Color for 'kill'
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-# Caching for completion
-zstyle ':completion::complete:*' use-cache 1
-zstyle ':completion::complete:*' cache-path ~/.zsh_cache/
-# Ignore completion functions for non-existent commands
-zstyle ':completion:*:functions' ignored-patterns '_*'
-# Prevent cd from selecting the parent directory
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
-
-### System configuration ------------------------------------------------------------------------------------
-#
-[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='1;32'
-PAGER=less
+export PAGER=less
+
+[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
 
 path=( /usr/local/sbin           ${path} )
 path=( /usr/local/bin            ${path} )
@@ -124,13 +74,9 @@ path=( /usr/local/go/bin         ${path} )
 path=( /usr/local/vw/bin         ${path} )
 path=( ~/bin                     ${path} )
 
-# Java Environment
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-
-# Android Environment
-export ANDROID_HOME=$HOME/Library/Android/sdk
-path=( $ANDROID_HOME/tools           ${path} )
-path=( $ANDROID_HOME/platform-tools  ${path} )
+manpath=( /usr/local/man )
+manpath=( $manpath /usr/local/share/man )
+manpath=( $manpath /usr/share/man )
 
 # GO Environment
 export GOPATH=$HOME/dev/go:$LIFTOFF_GOPATH
@@ -147,12 +93,8 @@ eval "$(rbenv init -)"
 # Kafka Environment
 export KAFKA_DIR=$HOME/dev/work/kafka
 
-# Node Environment
-export NODE_PATH="/usr/local/lib/node_modules"
-
-manpath=( /usr/local/man )
-manpath=( $manpath /usr/local/share/man )
-manpath=( $manpath /usr/share/man )
+# Java Environment
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 source ~/.aliases
 
@@ -168,6 +110,5 @@ function ash {
 }
 
 eval "$(fasd --init auto)"
-
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
