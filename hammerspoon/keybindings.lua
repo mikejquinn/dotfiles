@@ -3,6 +3,7 @@ local eventtap = require "hs.eventtap"
 local keycodes = require "hs.keycodes"
 local hotkey = require "hs.hotkey"
 local log = hs.logger.new("init", "debug")
+local timer = require "hs.timer"
 
 local keyDown = eventtap.event.types.keyDown
 local keyUp = eventtap.event.types.keyUp
@@ -110,6 +111,7 @@ keyToMod[59] = 'ctrl'
 
 local function oneTapMetaBinding(oldKeyCode, newKeyMod, newKeyCode)
    local pressed = false
+   local startTime = nil
    local tap = eventtap.new({keyDown, keyUp, flagsChanged}, function(event)
       local eventType = eventtap.event.types[event:getType()]
       -- I'm not sure why, but we have to listen for the keyUp event and pass it through or hammerspoon gets confused.
@@ -123,10 +125,15 @@ local function oneTapMetaBinding(oldKeyCode, newKeyMod, newKeyCode)
       end
       if eventHasMod(event, keyToMod[oldKeyCode]) then
          pressed = true
+         startTime = timer.secondsSinceEpoch()
          return false
       end
       if not pressed then
          return false
+      end
+      -- Don't fire the binding if the user held the meta key down for a while.
+      if timer.secondsSinceEpoch() - startTime > 0.25 then
+         return true, {}
       end
       -- If we reach here, the modifier key has been pressed and released without
       -- any other keys being pressed
@@ -150,6 +157,7 @@ local function oneTapKeyBinding(oldKeyName, newKeyMod)
    local oldKeyCode = keycodes.map[oldKeyName]
    local pressed = false
    local fired = false
+   local startTime = nil
    local tap = eventtap.new({keyDown, keyUp}, function(event)
       local keyCode = event:getKeyCode()
       local eventType = eventtap.event.types[event:getType()]
@@ -173,6 +181,10 @@ local function oneTapKeyBinding(oldKeyName, newKeyMod)
          pressed = false
          if not fired then
             -- log.d("down/up - ret key pressed without other keys")
+            -- Don't fire the binding if the key has been held for a while.
+            if timer.secondsSinceEpoch() - startTime > 0.25 then
+               return true, {}
+            end
             return true, {down({}, oldKeyName), up({}, oldKeyName)}
          end
          -- log.d("nil - suppressing key up")
@@ -181,6 +193,9 @@ local function oneTapKeyBinding(oldKeyName, newKeyMod)
 
       if eventType == 'keyDown' then
          if keyCode == oldKeyCode then
+            if not pressed then
+              startTime = timer.secondsSinceEpoch()
+            end
             pressed = true
             fired = false
             -- log.d("nil - suppressing key down")
