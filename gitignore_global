@@ -14,3 +14,16 @@ gumtwo/bin
 django_admin/env-1.6.5
 django_admin/env-1.9.7
 python-2.7
+
+gumtwo/data
+gumtwo/work
+gumtwo/*.log
+gumtwo/*.json
+gumtwo/g2
+gumtwo/g2admin
+gumtwo/gumtwod
+gumtwo/import
+gumtwo/reset.sh
+gumtwo/schema
+
+\#*
