@@ -29,3 +29,5 @@ alias agg='ag --go'
 alias mr='make run'
 
 alias wakemini='wakeonlan -i 10.10.10.255 28:cf:e9:00:ca:11'
+
+eval "$(hub alias -s)"
