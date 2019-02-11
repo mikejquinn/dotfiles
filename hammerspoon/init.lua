@@ -6,27 +6,11 @@ local screen = require "hs.screen"
 local window = require "hs.window"
 local layout = require "hs.layout"
 
+amphetamine = require "amphetamine"
+
 local log = hs.logger.new("init", "debug")
 
-keybindings = require "keybindings"
-
 hs.crash.crashLogToNSLog = true
-
-
-keybindings.new("w", {"ctrl"}, "delete", {"alt"}, true)
-keybindings.new("a", {"ctrl"}, "left", {"cmd"}, true)
-keybindings.new("e", {"ctrl"}, "right", {"cmd"}, true)
-keybindings.new("f", {"alt"}, "right", {"alt"}, true)
-keybindings.new("b", {"alt"}, "left", {"alt"}, true)
-keybindings.new(",", {"ctrl"}, "-", {}, false)
-keybindings.new(".", {"ctrl"}, "-", {"shift"}, false)
-
-
-keybindings.newOneTapMetaBinding(keybindings.keys.leftShift, {'shift'}, '9')
-keybindings.newOneTapMetaBinding(keybindings.keys.rightShift, {'shift'}, '0')
-keybindings.newOneTapMetaBinding(keybindings.keys.ctrl, {}, 'escape')
-
-keybindings.newOneTapBinding("return", {"alt"})
 
 -- The window move animations are annoying
 window.animationDuration = 0
@@ -113,11 +97,6 @@ fnutils.each(movements, function(m)
   hotkey.bind(m.mod, m.key, m.fn)
 end)
 
--- mykeys.hyper:bind({}, 'u', gridset(goupleft))
--- mykeys.hyper:bind({}, 'i', gridset(goupright))
--- mykeys.hyper:bind({}, 'j', gridset(godownleft))
--- mykeys.hyper:bind({}, 'k', gridset(godownright))
-
 hotkey.bind(mashAll, 'u', gridset(goupleft))
 hotkey.bind(mashAll, 'i', gridset(goupright))
 hotkey.bind(mashAll, 'j', gridset(godownleft))
@@ -144,10 +123,8 @@ local appShortcuts = {
    j = "Google Chrome",
    l = "Emacs",
    k = "iTerm2",
-   u = "GitX",
-   i = "Adium",
-   y = "Messages",
-   o = "Things"
+   u = "Slack",
+   i = "Messages",
 }
 
 for key, appName in pairs(appShortcuts) do
@@ -174,8 +151,6 @@ function layoutForWork()
 
   hs.layout.apply(workLayout)
 end
-
--- mykeys.hyper:bind({}, 'w', layoutForWork)
 
 hotkey.bind(mashAll,"w", layoutForWork)
 
