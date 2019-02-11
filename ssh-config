@@ -4,13 +4,19 @@
 # When making multiple connections to the same server, share the connection
 # ControlMaster auto
 # ControlPath /tmp/ssh_mux_%h_%p_%r
+#
 
-Host adcheckup.com *.liftoff.io *.compute-1.amazonaws.com *.compute.amazonaws.com
+Host *.liftoff.io *.compute-1.amazonaws.com *.compute.amazonaws.com
   User ubuntu
   PasswordAuthentication no
   ForwardAgent yes
+  SendEnv LIFTOFF_USER
   StrictHostKeyChecking no
-  SendEnv LIFTOFF_USERNAME
+  IdentityFile ~/.ssh/id_rsa
+  ControlMaster no
+  ControlPath none
+  UseKeychain yes
+  AddKeysToAgent yes
 
 # Github aggressively closes connections
 Host github.com
