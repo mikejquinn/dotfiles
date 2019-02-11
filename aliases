@@ -18,8 +18,8 @@ alias js='java org.mozilla.javascript.tools.shell.Main'
 alias a='ansible'
 alias ap='ansible-playbook'
 
-alias pgstart='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-alias pgstop='pg_ctl -m fast -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
+alias pgstart='brew services start postgresql'
+alias pgstop='brew services stop postgresql'
 
 alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 alias redisstop='launchctl unload /usr/local/opt/redis/homebrew.mxcl.redis.plist'
