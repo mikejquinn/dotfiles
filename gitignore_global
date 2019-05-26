@@ -33,6 +33,7 @@ gumshoe-master
 \.\#*
 
 .idea
+.ignore
 
 ops/ansible/tasks/notes.org
 gumshoe/notes.org

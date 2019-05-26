@@ -1,13 +1,10 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira"
+ZSH_THEME="bira-mod"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,13 +48,11 @@ ZSH_THEME="bira"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git emacs)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -65,36 +60,6 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 export PAGER=less
-
-[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
-
-path=( /usr/local/sbin           ${path} )
-path=( /usr/local/bin            ${path} )
-path=( /usr/local/go/bin         ${path} )
-path=( /usr/local/vw/bin         ${path} )
-path=( ~/bin                     ${path} )
-
-manpath=( /usr/local/man )
-manpath=( $manpath /usr/local/share/man )
-manpath=( $manpath /usr/share/man )
-
-# GO Environment
-export GOPATH=$HOME/dev/go:$LIFTOFF_GOPATH
-path=( $HOME/dev/go/bin     ${path} )
-path=( $LIFTOFF_GOPATH/bin  ${path} )
-
-# Postgres
-export PGDATA=/usr/local/var/postgres
-
-# Ruby Environment
-path=( ${HOME}/.rbenv/bin ${path} )
-eval "$(rbenv init -)"
-
-# Kafka Environment
-export KAFKA_DIR=$HOME/dev/work/kafka
-
-# Java Environment
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 source ~/.aliases
 
@@ -109,6 +74,21 @@ function ash {
   ssh `ah $1`
 }
 
+function apsql {
+  psql -h `ah $1` $2 ubuntu
+}
+
+function ag2 {
+    g2 -addr `psh -l "=$1" | head -n 1`:4388
+}
+
+# fasd - fast directory switching
 eval "$(fasd --init auto)"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# iterm2 integration
+[[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# FZF
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

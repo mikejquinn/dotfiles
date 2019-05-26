@@ -8,4 +8,6 @@ bind main B !git rebase -i %(commit)^
 
 bind stash D !?git stash drop %(stash)
 
+bind refs x !?git branch -D %(branch)
+
 set vertical-split = no

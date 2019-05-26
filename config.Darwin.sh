@@ -20,20 +20,61 @@ SCRIPTDIR=$(cd `dirname $0` && pwd)
 
 # Create Links
 cd ~
-ln -s $SCRIPTDIR/aliases .aliases
-ln -s $SCRIPTDIR/zshenv .zshenv
-ln -s $SCRIPTDIR/zshrc .zshrc
-ln -s $SCRIPTDIR/slate .slate
-ln -s $SCRIPTDIR/tigrc .tigrc
-ln -s $SCRIPTDIR/psqlrc .psqlrc
-ln -s $SCRIPTDIR/ssh-config .ssh/config
+ln -sf $SCRIPTDIR/aliases .aliases
+ln -sf $SCRIPTDIR/zshenv .zshenv
+ln -sf $SCRIPTDIR/zshrc .zshrc
+ln -sf $SCRIPTDIR/slate .slate
+ln -sf $SCRIPTDIR/tigrc .tigrc
+ln -sf $SCRIPTDIR/psqlrc .psqlrc
+ln -sf $SCRIPTDIR/ssh-config .ssh/config
 
-mkdir ~/.lein
-ln -s $SCRIPTDIR/lein/profiles.clj ~/.lein/profiles.clj
-ln -s $SCRIPTDIR/lein/credentials.clj.gpg ~/.lein/credentials.clj.gpg
+mkdir -p ~/.lein
+ln -sf $SCRIPTDIR/lein/profiles.clj ~/.lein/profiles.clj
+ln -sf $SCRIPTDIR/lein/credentials.clj.gpg ~/.lein/credentials.clj.gpg
 
-#ln -s $SCRIPTDIR/gitconfig .gitconfig
-#ln -s $SCRIPTDIR/git-global-ignore .git-global-ignore
-#ln -s $SCRIPTDIR/vim-config .vim
+ln -sf $SCRIPTDIR/gitconfig .gitconfig
+ln -sf $SCRIPTDIR/gitignore_global .gitignore_global
+ln -sf $SCRIPTDIR/vim-config .vim
+ln -sf $SCRIPTDIR/hammerspoon .hammerspoon
 
-ln -s $SCRIPTDIR/KeyRemap4MacBook/private.xml ~/Library/Application\ Support/KeyRemap4MacBook/private.xml
+# Install Homebrew
+if [[ ! -e "/usr/local/Cellar" ]]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+if [[ ! -e "/usr/local/Homebrew/Library/Taps/railwaycat/homebrew-emacsmacport" ]]; then
+  brew tap railwaycat/emacsmacport
+fi
+
+brew update
+brew install \
+  autoconf \
+  automake \
+  fasd \
+  gdbm \
+  go \
+  emacs-mac \
+  jq \
+  imagemagick \
+  leiningen \
+  maven \
+  openssl \
+  ossp-uuid \
+  parallel \
+  pcre \
+  pkg-config \
+  postgresql \
+  rbenv \
+  readline \
+  redis \
+  ruby-build \
+  the_silver_searcher \
+  tig \
+  vim \
+  wget \
+  xz \
+  zsh \
+  zsh-completions
+
+# Speed up keyboard repeat
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)

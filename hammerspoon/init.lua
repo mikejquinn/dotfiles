@@ -125,6 +125,7 @@ local appShortcuts = {
    k = "iTerm2",
    u = "Slack",
    i = "Messages",
+   o = "GoLand",
 }
 
 for key, appName in pairs(appShortcuts) do
