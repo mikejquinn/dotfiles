@@ -8,12 +8,12 @@ path=()
 
 path=(
   ~/bin
-  /sbin
-  /usr/sbin
   /usr/local/sbin
-  /bin
-  /usr/bin
+  /usr/sbin
+  /sbin
   /usr/local/bin
+  /usr/bin
+  /bin
 )
 
 # GO Environment
@@ -49,3 +49,6 @@ export NODE_PATH="/usr/local/lib/node_modules"
 # Ruby Environment
 path=( ${HOME}/.rbenv/bin ${path} )
 eval "$(rbenv init -)"
+
+eval "$(pyenv init -)"
+export LIFTOFF_VENV_ROOT=~/.venv
