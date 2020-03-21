@@ -18,8 +18,8 @@ alias js='java org.mozilla.javascript.tools.shell.Main'
 alias a='ansible'
 alias ap='ansible-playbook'
 
-alias pgstart='brew services start postgresql'
-alias pgstop='brew services stop postgresql'
+alias pgstart='brew services start postgresql@10'
+alias pgstop='brew services stop postgresql@10'
 
 alias redisstart='launchctl load /usr/local/opt/redis/homebrew.mxcl.redis.plist'
 alias redisstop='launchctl unload /usr/local/opt/redis/homebrew.mxcl.redis.plist'
@@ -31,3 +31,5 @@ alias mr='make run'
 alias wakemini='wakeonlan -i 10.10.10.255 28:cf:e9:00:ca:11'
 
 eval "$(hub alias -s)"
+
+alias clj="clj -A:liftoff"
