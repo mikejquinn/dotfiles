@@ -57,6 +57,11 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     archive
   }
 
+  filter {
+    has [{:or => %w{from:goodtime.io from:greenhouse.io}}]
+    label "interviews"
+  }
+
   # Alert Emails
   filter {
     has %W{to:alerts+aa@liftoff.io}
@@ -80,6 +85,11 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     has %W{to:alerts@liftoff.io}
     label "alerts"
   }.archive_unless_directed
+
+  filter {
+    has %W{(invite.ics OR invite.vcs) has:attachment}
+    label "calendar"
+  }
 
   # filter {
   #   has   %W{from:alerts+jenkins@liftoff.io to:alerts+ci@liftoff.io}
