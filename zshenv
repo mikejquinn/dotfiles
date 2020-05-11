@@ -8,6 +8,8 @@ path=()
 
 path=(
   ~/bin
+  /usr/local/go/bin
+  /usr/local/node/bin
   /usr/local/sbin
   /usr/sbin
   /sbin
