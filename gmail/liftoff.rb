@@ -7,14 +7,19 @@ EMAIL_ADDRESSES=%W{
 }
 GITHUB_USERNAME="mikejquinn"
 
-TEAM_NAMES=[
+DI_TEAM=[
   "Caleb Spare",
-  "Chase",
-  "Naomi B",
+  "GaYoung Park",
   "Nicholas Feinberg",
-  "Ray Wu",
-  "Sergey Zimin",
-  "Daniyar Kulakhmetov"
+  "Ray Wu"
+]
+
+BIDDING_TEAM=[
+  "Andy Sponring",
+  "Dongliang Xu",
+  "Daniel MacDougall",
+  "Jing Brian Zhou",
+  "Ken Chen"
 ]
 
 fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
@@ -26,6 +31,12 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     label "deploys"
     archive
     mark_read
+  }
+
+  filter {
+    has %W{deliveredto:dkulakhmetov@liftoff.io -from:liftoff.io}
+    label "oldemployees/daniyar"
+    archive
   }
 
   # Github Filters
@@ -41,9 +52,14 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     label "gh/pull-requests"
   }
   filter {
-    names = TEAM_NAMES.map { |n| "from:\"#{n}\"" }.join(' ')
+    names = DI_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
     has "{#{names}} from:notifications@github.com"
     label "gh/data-infra"
+  }
+  filter {
+    names = BIDDING_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
+    has "{#{names}} from:notifications@github.com"
+    label "gh/bidding"
   }
   filter {
     has  %W{from:notifications@github.com cc:assigned@noreply.github.com}
@@ -91,38 +107,14 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     label "calendar"
   }
 
-  # filter {
-  #   has   %W{from:alerts+jenkins@liftoff.io to:alerts+ci@liftoff.io}
-  #   label "ci"
-  # }.archive_unless_directed.otherwise{
-  #   has   %W{from:alerts+jenkins@liftoff.io}
-  #   label "alerts/job-failures"
-  # }.archive_unless_directed.otherwise{
-  #   has [{
-  #     :or => %w{gumshoe_ui skipper website_sdk_docs} \
-  #              .map{ |from| "from:alerts+#{from}@liftoff.io" } \
-  #              .push("to:alerts+apps@liftoff.io")
-  #   }]
-  #   label "alerts/apps"
-  # }.archive_unless_directed.otherwise{
-  #   has [{:or => %w{from:alerts+labrat@liftoff.io to:alerts+shadow_creative@liftoff.io}}]
-  #   label "alerts/creative-tech"
-  # }.archive_unless_directed.otherwise{
-  #   has [{
-  #     :or => %w{bookie jobrunner}.map{ |from| "from:alerts+#{from}@liftoff.io" }
-  #   }]
-  #   label "alerts/ml"
-  # }.archive_unless_directed.otherwise{
-  #   has %W{to:alerts@liftoff.io}
-  #   label "alerts"
-  # }.archive_unless_directed
 
+  # A very annoying phishing email I get constantly.
   filter {
     subject "mikeq@liftoff.io has been hacked, change your password ASAP"
     delete_it
   }
 
-  # Annoying newsletters
+  # Annoying newsletters.
   NEWSLETTERS = %W{
     hello@tune.com
     tracker-news@pivotal.io
