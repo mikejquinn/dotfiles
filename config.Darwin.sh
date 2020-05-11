@@ -23,14 +23,9 @@ cd ~
 ln -sf $SCRIPTDIR/aliases .aliases
 ln -sf $SCRIPTDIR/zshenv .zshenv
 ln -sf $SCRIPTDIR/zshrc .zshrc
-ln -sf $SCRIPTDIR/slate .slate
 ln -sf $SCRIPTDIR/tigrc .tigrc
 ln -sf $SCRIPTDIR/psqlrc .psqlrc
 ln -sf $SCRIPTDIR/ssh-config .ssh/config
-
-mkdir -p ~/.lein
-ln -sf $SCRIPTDIR/lein/profiles.clj ~/.lein/profiles.clj
-ln -sf $SCRIPTDIR/lein/credentials.clj.gpg ~/.lein/credentials.clj.gpg
 
 ln -sf $SCRIPTDIR/gitconfig .gitconfig
 ln -sf $SCRIPTDIR/gitignore_global .gitignore_global
