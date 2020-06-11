@@ -40,17 +40,13 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   }
 
   # Github Filters
-  # I filter all PRs/comments from members of the DI team to their own
+  # I filter all PRs/comments from members of the DI and Bidding teams to their own
   # label. Any Github notifications that specifically target me are sent to my inbox
   # instead of being auto-archived.
   filter {
     has  %W{from:notifications@github.com}
     label "gh"
-  }
-  filter {
-    has  %W{from:notifications@github.com "this pull request"}
-    label "gh/pull-requests"
-  }
+  }.archive_unless_directed
   filter {
     names = DI_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
     has "{#{names}} from:notifications@github.com"
@@ -60,17 +56,6 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     names = BIDDING_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
     has "{#{names}} from:notifications@github.com"
     label "gh/bidding"
-  }
-  filter {
-    has  %W{from:notifications@github.com cc:assigned@noreply.github.com}
-    label "gh/assigned"
-  }
-  filter {
-    has [{:or => %w{cc:mention@noreply.github.com cc:author@noreply.github.com cc:comment@noreply.github.com cc:assigned@noreply.github.com}}]
-    label "gh/me"
-  }.otherwise {
-    has %W{from:notifications@github.com}
-    archive
   }
 
   filter {
@@ -82,31 +67,41 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   filter {
     has %W{to:alerts+aa@liftoff.io}
     label "alerts/aa"
-  }.archive_unless_directed.otherwise{
+  }
+  filter {
     has %W{to:alerts+bidding@liftoff.io}
     label "alerts/bidding"
-  }.archive_unless_directed.otherwise{
-    has [{:or => %W{to:alerts+creative@liftoff.io to:alerts+labrat@liftoff.io}}]
+  }
+  filter {
+    has %W{to:alerts+creative@liftoff.io}
     label "alerts/creative-tech"
-  }.archive_unless_directed.otherwise{
-    has [{:or => %W{to:alerts+dash@liftoff.io to:alerts+apps@liftoff.io}}]
+  }
+  filter {
+    has %W{to:alerts+dash@liftoff.io}
     label "alerts/dash"
-  }.archive_unless_directed.otherwise{
-    has [{:or => %W{to:alerts+ml@liftoff.io to:alerts+prospector@liftoff.io}}]
+  }
+  filter {
+    has %W{to:alerts+ml@liftoff.io}
     label "alerts/ml"
-  }.archive_unless_directed.otherwise{
+  }
+  filter {
     has %W{to:alerts+datainfra@liftoff.io}
     label "alerts/data-infra"
-  }.archive_unless_directed.otherwise{
+  }
+  filter {
     has %W{to:alerts@liftoff.io}
     label "alerts"
-  }.archive_unless_directed
+  }
+  filter {
+    has %W{to:alerts@liftoff.io -{to:me to:data-infra@liftoff.io to:bidding@liftoff.io to:core-eng@liftoff.io to:eng@liftoff.io}}
+    label "alerts"
+    archive
+  }
 
   filter {
     has %W{(invite.ics OR invite.vcs) has:attachment}
     label "calendar"
   }
-
 
   # A very annoying phishing email I get constantly.
   filter {
