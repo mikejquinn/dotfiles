@@ -8,6 +8,7 @@ EMAIL_ADDRESSES=%W{
 GITHUB_USERNAME="mikejquinn"
 
 DI_TEAM=[
+  "Andrey Klochkov",
   "Caleb Spare",
   "GaYoung Park",
   "Nicholas Feinberg",
