@@ -26,6 +26,7 @@ ln -sf $SCRIPTDIR/zshrc .zshrc
 ln -sf $SCRIPTDIR/tigrc .tigrc
 ln -sf $SCRIPTDIR/psqlrc .psqlrc
 ln -sf $SCRIPTDIR/ssh-config .ssh/config
+ln -sf $SCRIPTDIR/agignore .agignore
 
 ln -sf $SCRIPTDIR/gitconfig .gitconfig
 ln -sf $SCRIPTDIR/gitignore_global .gitignore_global
@@ -45,6 +46,7 @@ brew install \
   autoconf \
   automake \
   fasd \
+  fzf \
   gdbm \
   go \
   emacs-mac \
