@@ -33,6 +33,9 @@ ln -sf $SCRIPTDIR/gitignore_global .gitignore_global
 ln -sf $SCRIPTDIR/vim-config .vim
 ln -sf $SCRIPTDIR/hammerspoon .hammerspoon
 
+mkdir -p ~/.config/
+ln -sf $SCRIPTDIR/karabiner ~/.config/karabiner
+
 # Install Homebrew
 if [[ ! -e "/usr/local/Cellar" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
