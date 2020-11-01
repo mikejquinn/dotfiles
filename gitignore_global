@@ -11,24 +11,6 @@ Thumbs.db
 .projectile
 gumtwo/bin
 
-django_admin/env-1.6.5
-django_admin/env-1.9.7
-python-2.7
-
-gumtwo/data
-gumtwo/work
-gumtwo/*.log
-gumtwo/*.json
-gumtwo/g2
-gumtwo/g2admin
-gumtwo/gumtwod
-gumtwo/import
-gumtwo/restart.sh
-gumtwo/reset.sh
-gumtwo/schema
-
-gumshoe-master
-
 \#*
 \.\#*
 
@@ -41,12 +23,5 @@ ops/kafka/devkafka/fetch_logs.sh
 ops/kafka/devkafka/import.sh
 ops/kafka/devkafka/logs/*.log.gz
 ops/kafka/devkafka/download.sh
-
-ops/ploy/cmd/ployd/deploys
-ops/ploy/cmd/ploy/ploycmd
-ops/ploy/cmd/ploy/ploy-*
-ops/ploy/demo
-ops/ploy/cmd/ployd/deploys2
-ops/ploy/cmd/ployserver/tls
 
 miketmp
