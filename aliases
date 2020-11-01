@@ -3,6 +3,8 @@ alias ls='ls -G'
 alias ll='ls -lh'
 alias l='ll'
 
+
+alias gt='go test ./...'
 alias g='git'
 
 alias pl='echo $LD_LIBRARY_PATH | tr ":" "\n" '
