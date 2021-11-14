@@ -23,3 +23,5 @@
 	undo = reset HEAD~1 --mixed
 	amend = commit -a --amend
 
+[pull]
+	ff = only
