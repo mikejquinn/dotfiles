@@ -115,8 +115,8 @@ hotkey.bind(mashShift, "I", hs.grid.resizeWindowShorter)
 hotkey.bind(mashShift, "O", hs.grid.resizeWindowWider)
 
 -- multi monitor
-hotkey.bind(mashShift, "N", hs.grid.pushWindowPrevScreen)
-hotkey.bind(mashShift, "P", hs.grid.pushWindowNextScreen)
+hotkey.bind(mashShift, "P", hs.grid.pushWindowPrevScreen)
+hotkey.bind(mashShift, "N", hs.grid.pushWindowNextScreen)
 
 -- Application focus hotkeys
 local appShortcuts = {
@@ -124,7 +124,7 @@ local appShortcuts = {
    l = "Emacs",
    k = "iTerm2",
    u = "Slack",
-   i = "Xcode",
+   i = "Code",
    o = "GoLand",
 }
 
@@ -140,14 +140,13 @@ end
 function layoutForWork()
   local screens = getSortedScreens()
   local workLayout = {
-    {"Google Chrome", nil, screens[3], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"iTerm2", nil, screens[3], {x=0, y=0, w=0.5, h=1}, nil, nil},
-    {"Slack", nil, screens[1], {x=0, y=0, w=0.5, h=1}, nil, nil},
+    {"Google Chrome", nil, screens[1], {x=0, y=0, w=1, h=1}, nil, nil},
+
     {"Emacs", nil, screens[2], {x=0, y=0, w=1, h=1}, nil, nil},
-    {"Google Chrome", "Google Hangouts", screens[1], {x=0, y=0, w=0.5, h=1}, nil, nil},
-    {"Messages", nil, screens[1], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"GitX", nil, screens[2], {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"Calendar", nil, screens[1], {x=0, y=0, w=1, h=1}, nil, nil}
+
+    {"Slack", nil, screens[3], {x=0, y=0, w=1, h=0.5}, nil, nil},
+    {"iTerm2", nil, screens[3], {x=0, y=0.5, w=1, h=0.5}, nil, nil},
+    {"Messages", nil, screens[3], {x=0, y=0.5, w=1, h=0.5}, nil, nil},
   }
 
   hs.layout.apply(workLayout)
