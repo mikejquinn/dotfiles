@@ -8,19 +8,26 @@ EMAIL_ADDRESSES=%W{
 GITHUB_USERNAME="mikejquinn"
 
 DI_TEAM=[
-  "Andrey Klochkov",
+  "Alexei Pesic",
+  "bhuang-liftoff",
   "Caleb Spare",
+  "Evan Gates",
   "GaYoung Park",
-  "Nicholas Feinberg",
-  "Ray Wu"
+  "Nicholas Feinberg"
 ]
 
 BIDDING_TEAM=[
-  "Andy Sponring",
-  "Dongliang Xu",
   "Daniel MacDougall",
+  "Ken Chen",
+  "Kei Peralta"
+]
+
+PUBLISHER_TEAM=[
+  "Andy Sponring",
+  "Anton Kapralov",
   "Jing Brian Zhou",
-  "Ken Chen"
+  "Tao Liu",
+  "Dan Patz"
 ]
 
 fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
@@ -48,16 +55,15 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     has  %W{from:notifications@github.com}
     label "gh"
   }.archive_unless_directed
-  filter {
-    names = DI_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
-    has "{#{names}} from:notifications@github.com"
-    label "gh/data-infra"
-  }
-  filter {
-    names = BIDDING_TEAM.map { |n| "from:\"#{n}\"" }.join(' ')
-    has "{#{names}} from:notifications@github.com"
-    label "gh/bidding"
-  }
+  [{names: DI_TEAM, label: "data-infra"},
+   {names: BIDDING_TEAM, label: "bidding"},
+   {names: PUBLISHER_TEAM, label: "publisher"}].each do |m|
+    filter {
+      names = m[:names].map { |n| "from:\"#{n}\"" }.join(' ')
+      has "{#{names}} from:notifications@github.com"
+      label "gh/#{m[:label]}"
+    }
+  end
 
   filter {
     has [{:or => %w{from:goodtime.io from:greenhouse.io}}]
@@ -108,6 +114,32 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   filter {
     subject "mikeq@liftoff.io has been hacked, change your password ASAP"
     delete_it
+  }
+
+  filter {
+    has %W{from:pivotaltracker.com}
+    label "pivotal"
+  }
+  filter {
+    has %W{from:from:docs.google.com}
+    label "google-docs"
+  }
+
+  filter {
+    has %W{from:dsp.reports@fyber.com}
+    label "reports"
+    archive_unless_directed
+  }
+
+  filter {
+    has ["Autopilot Sprint Notes",
+         "Creative production sprint planning",
+         "Core Eng Retro Notes",
+         "ConvX US Sprint notes",
+         "ConvX retrospective notes",
+         "Publisher team sprint"
+        ].map { |s| "subject:\"#{s}\"" }.join(" OR ")
+    label "retrospectives"
   }
 
   # Annoying newsletters.
