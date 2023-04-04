@@ -12,13 +12,11 @@ INFRA_TEAM=[
   "Caleb Spare",
   "GaYoung Park",
   "Nicholas Feinberg",
-  "Sue Park",
 ]
 
 DATA_PLATFORM_TEAM=[
   "Balamurugan Chandrasekaran",
   "Evan Gates",
-  "Quoc",
   "Avi",
 ]
 
@@ -42,9 +40,10 @@ PUBLISHER_TEAM=[
 ]
 
 SPO_TEAM=[
-  "Ben Rowles",
   "Dhruv Ranjan",
   "Tom Skinner",
+  "Jonathan Phung",
+  "Kenneth Lin",
 ]
 
 fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
