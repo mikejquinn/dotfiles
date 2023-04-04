@@ -1,68 +1,47 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira-mod"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-#plugins=(git)
-plugins=()
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-export EDITOR=/usr/local/bin/vim
-export VISUAL=/usr/local/bin/vim
+export EDITOR=/opt/homebrew/bin/vim
+export VISUAL=/opt/homebrew/bin/vim
 export PAGER=less
 
 source ~/.aliases
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+export PYENV_ROOT="${HOME}/.pyenv"
+path=( ${PYENV_ROOT}/bin ${path} )
+path=( ${PYENV_ROOT}/shims ${path} )
+eval "$(pyenv init -)"
+
+fpath=( ${HOME}/dotfiles/zsh-functions ${fpath} )
+SPACESHIP_PROMPT_ORDER=(
+  time          # Time stamps section
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  git           # Git section (git_branch + git_status)
+  ruby          # Ruby section
+  golang        # Go section
+  exec_time     # Execution time
+  line_sep      # Line break
+  battery       # Battery level and status
+  vi_mode       # Vi-mode indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
+autoload -U promptinit; promptinit
+prompt spaceship
+
+# GO Environment
+path=( $GOPATH/bin ${path} )
+[[ -a ~/.liftoff_profile ]] && source ~/.liftoff_profile
+
+# Ruby Environment
+eval "$(rbenv init -)"
+
+path=( ~/bin ${path} )
 
 # Helper functions for ansible
 # Return the first host in a hosts group
@@ -87,9 +66,47 @@ function ag2 {
 eval "$(fasd --init auto)"
 
 # iterm2 integration
-[[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+# [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # FZF
 export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
+source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+
+autoload -U select-word-style
+select-word-style bash
+
+HISTSIZE=10000
+SAVEHIST=10000
+setopt append_history           # allow multiple sessions to append to one history
+setopt bang_hist                # treat ! special during command expansion
+setopt extended_history         # Write history in :start:elasped;command format
+setopt hist_expire_dups_first   # expire duplicates first when trimming history
+setopt hist_find_no_dups        # When searching history, don't repeat
+setopt hist_ignore_dups         # ignore duplicate entries of previous events
+setopt hist_ignore_space        # prefix command with a space to skip it's recording
+setopt hist_reduce_blanks       # Remove extra blanks from each command added to history
+setopt hist_verify              # Don't execute immediately upon history expansion
+setopt inc_append_history       # Write to history file immediately, not when shell quits
+setopt share_history            # Share history among all sessions
+
+# Tab completion
+autoload -Uz compinit && compinit
+setopt complete_in_word         # cd /ho/sco/tm<TAB> expands to /home/scott/tmp
+setopt auto_menu                # show completion menu on succesive tab presses
+setopt autocd                   # cd to a folder just by typing it's name
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&' # These "eat" the auto prior space after a tab complete
+
+# Up/Down keys search through history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+zstyle ':completion:*' menu select
+
+
+# Theme

@@ -1,0 +1,3 @@
+[submodule "vendor/spaceship"]
+	path = vendor/spaceship
+	url = https://github.com/spaceship-prompt/spaceship-prompt.git

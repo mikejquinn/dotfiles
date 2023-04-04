@@ -1,4 +1,7 @@
 GEM
+  specs:
+
+GEM
   remote: https://rubygems.org/
   specs:
     gmail-britta (0.1.7)
@@ -12,4 +15,4 @@ DEPENDENCIES
   gmail-britta!
 
 BUNDLED WITH
-   2.1.2
+   2.3.14

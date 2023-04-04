@@ -2,7 +2,7 @@
 	email = mike@liftoff.io
 	name = Michael Quinn
 [core]
-	excludesfile = /Users/mikeq/.gitignore_global
+	excludesfile = /Users/mquinn/.gitignore_global
 	editor = /usr/bin/vim
 [filter "media"]
 	clean = git media clean %f

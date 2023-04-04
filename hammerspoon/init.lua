@@ -124,7 +124,7 @@ local appShortcuts = {
    l = "Emacs",
    k = "iTerm2",
    u = "Slack",
-   i = "Code",
+   i = "OmniFocus",
    o = "GoLand",
 }
 
