@@ -9,41 +9,23 @@ GITHUB_USERNAME="mikejquinn"
 
 INFRA_TEAM=[
   "Basil Huang",
-  "Caleb Spare",
   "GaYoung Park",
   "Nicholas Feinberg",
+  "Stefan Toubia",
+  "Andy Sponring",
 ]
 
-DATA_PLATFORM_TEAM=[
-  "Balamurugan Chandrasekaran",
-  "Evan Gates",
-  "Avi",
-]
-
-AA_TEAM=[
-  "srikanth-hariharan-liftoff",
-  "Harsha Jujjavarapu",
-  "YBizzle Kim",
+TS_TEAM=[
+  "Frank Fishburn",
+  "Aibek Yessenalian",
+  "Caleb Spare",
+  "Daniel MacDougall",
 ]
 
 BIDDING_TEAM=[
-  "Daniel MacDougall",
-  "Ken Chen",
   "Kei Peralta",
   "Sam Wu",
   "devoncall",
-]
-
-PUBLISHER_TEAM=[
-  "Jing Brian Zhou",
-  "Dan Patz",
-]
-
-SPO_TEAM=[
-  "Dhruv Ranjan",
-  "Tom Skinner",
-  "Jonathan Phung",
-  "Kenneth Lin",
 ]
 
 fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
@@ -57,7 +39,10 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     mark_read
   }
 
-  [["dkulakhmetov", "daniyar"], ["alexei", "alexei"]].each do |(email, label)|
+  [["dkulakhmetov", "daniyar"],
+   ["alexei", "alexei"],
+   ["ben", "ben"],
+   ["ken.chen", "ken"]].each do |(email, label)|
     filter {
       has %W{deliveredto:#{email}@liftoff.io -from:liftoff.io}
       label "oldemployees/#{label}"
@@ -74,11 +59,9 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     label "gh"
   }.archive_unless_directed
   [{names: INFRA_TEAM, label: "infra"},
-   {names: DATA_PLATFORM_TEAM, label: "data-platform"},
-   {names: AA_TEAM, label: "aa"},
+   {names: TS_TEAM, label: "trainingserving"},
    {names: BIDDING_TEAM, label: "bidding"},
-   {names: SPO_TEAM, label: "spo"},
-   {names: PUBLISHER_TEAM, label: "publisher"}].each do |m|
+  ].each do |m|
     filter {
       names = m[:names].map { |n| "from:\"#{n}\"" }.join(' ')
       has "{#{names}} from:notifications@github.com"
@@ -92,53 +75,31 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   }
 
   # Alert Emails
-  filter {
-    has "from:support@lacework.com subject:Events"
-    label "alerts/lacework"
-    archive
-  }
-  filter {
-    has %W{from:tickets@liftoff.io}
-    label "tickets"
-    archive_unless_directed
-  }
-  filter {
-    has %W{from:device-id-list-archive@liftoff.io}
-    label "alerts/device-id-list-archive"
-    archive
-  }
+  ["aa",
+   "bidding",
+   {"creative" => "creative-tech"},
+   "dash",
+   "ml",
+   "infra",
+   "dataplatform",
+   "trainingserving",
+   "convx",
+  ].each do |m|
+    unless m.is_a?(Hash)
+      m = {m => m}
+    end
+    m.each do |a, label|
+      filter {
+        has %W{to:alerts+#{a}@liftoff.io}
+        label "alerts/#{label}"
+      }
+    end
+  end
+
   filter {
     has %W{to:customer-success-alerts@liftoff.io}
     label "alerts/customer-success"
     archive
-  }
-  filter {
-    has %W{to:alerts+aa@liftoff.io}
-    label "alerts/aa"
-  }
-  filter {
-    has %W{to:alerts+bidding@liftoff.io}
-    label "alerts/bidding"
-  }
-  filter {
-    has %W{to:alerts+creative@liftoff.io}
-    label "alerts/creative-tech"
-  }
-  filter {
-    has %W{to:alerts+dash@liftoff.io}
-    label "alerts/dash"
-  }
-  filter {
-    has %W{to:alerts+ml@liftoff.io}
-    label "alerts/ml"
-  }
-  filter {
-    has %W{to:alerts+infra@liftoff.io}
-    label "alerts/infra"
-  }
-  filter {
-    has %W{to:alerts+dataplatform@liftoff.io}
-    label "alerts/dataplatform"
   }
   filter {
     has %W{to:alerts@liftoff.io}
@@ -159,11 +120,6 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     archive
   }
 
-  filter {
-    has %W{to:exchange@applovin.com to:support@applovin.com}
-    label "exchange-partners"
-  }
-
   # A very annoying phishing email I get constantly.
   filter {
     subject "mikeq@liftoff.io has been hacked, change your password ASAP"
@@ -175,30 +131,29 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
     label "pivotal"
   }
   filter {
-    has %W{from:from:docs.google.com}
+    has %W{from:docs.google.com}
     label "google-docs"
   }
 
   filter {
-    has %W{from:dsp.reports@fyber.com}
-    label "reports"
-    archive_unless_directed
-  }
-  filter {
-    has %W{from:eugenisp@amazon.com subject:"CONFIDENTIAL - AWS Roadmap Items"}
+    has %W{from:(eugenisp@amazon.com OR didow@amazon.com) subject:"CONFIDENTIAL - AWS Roadmap Items"}
     label "aws"
     archive
   }
   filter {
-    has %W{to:apps@liftoff.io salesforce.com}
-    label "salesforce"
+    has %W{from:freetier@costalerts.amazonaws.com}
+    label "aws"
     archive
   }
+
+  # filter {
+  #   has %W{from:kanako.abe@supership.jp j
+
 
   filter {
     has ["Autopilot Sprint Notes",
          "Sprint Planning and Retrospective",
-         "Creative production sprint planning",
+         "Creative platform sprint planning",
          "Infra team sprint planning",
          "Core Eng Retro Notes",
          "sprint planning notes",
