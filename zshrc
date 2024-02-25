@@ -15,6 +15,9 @@ path=( ${PYENV_ROOT}/bin ${path} )
 path=( ${PYENV_ROOT}/shims ${path} )
 eval "$(pyenv init -)"
 
+# Don't write .pyc files everywhere.
+export PYTHONDONTWRITEBYTECODE=1
+
 fpath=( ${HOME}/dotfiles/zsh-functions ${fpath} )
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stamps section
