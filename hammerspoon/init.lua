@@ -120,7 +120,7 @@ hotkey.bind(mashShift, "N", hs.grid.pushWindowNextScreen)
 
 -- Application focus hotkeys
 local appShortcuts = {
-   j = "Google Chrome",
+   j = "Chrome",
    l = "Emacs",
    k = "iTerm2",
    u = "Slack",
