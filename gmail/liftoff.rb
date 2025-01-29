@@ -25,7 +25,16 @@ TS_TEAM=[
 BIDDING_TEAM=[
   "Kei Peralta",
   "Sam Wu",
-  "devoncall",
+  "Patrick Phang",
+]
+
+EXP_PLATFORM_TEAM=[
+  "Patrick Waters",
+  "James Dang",
+]
+
+LANG_TOOL_TEAM=[
+  "Kevin Le",
 ]
 
 fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
@@ -42,7 +51,10 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   [["dkulakhmetov", "daniyar"],
    ["alexei", "alexei"],
    ["ben", "ben"],
-   ["ken.chen", "ken"]].each do |(email, label)|
+   ["ken.chen", "ken"],
+   ["jfan", "johnny"],
+   ["wgoi", "wesley"],
+   ["dcall", "devon"]].each do |(email, label)|
     filter {
       has %W{deliveredto:#{email}@liftoff.io -from:liftoff.io}
       label "oldemployees/#{label}"
@@ -61,6 +73,8 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   [{names: INFRA_TEAM, label: "infra"},
    {names: TS_TEAM, label: "trainingserving"},
    {names: BIDDING_TEAM, label: "bidding"},
+   {names: EXP_PLATFORM_TEAM, label: "exp-platform"},
+   {names: LANG_TOOL_TEAM, label: "language-tools"},
   ].each do |m|
     filter {
       names = m[:names].map { |n| "from:\"#{n}\"" }.join(' ')
@@ -72,6 +86,12 @@ fs = GmailBritta.filterset(:me => EMAIL_ADDRESSES) do
   filter {
     has [{:or => %w{from:goodtime.io from:greenhouse.io}}]
     label "interviews"
+  }
+
+  filter {
+    has %W{from:support@lacework.net subject:"Events Summary"}
+    label "alerts/lacework"
+    archive
   }
 
   # Alert Emails
